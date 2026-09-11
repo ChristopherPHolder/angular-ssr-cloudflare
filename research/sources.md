@@ -1,5 +1,12 @@
 # Research Sources
 
+> **Status: research only.** Everything in `research/` is **reference material**,
+> not the design we will ship. We are building our **own custom implementation**
+> of Angular SSR on Cloudflare Workers — these sources inform our decisions but no
+> single guide is the blueprint, and none of their code should be copied verbatim.
+> **Target is Cloudflare Workers, not Pages** — treat Pages-only material as
+> background only (see prune candidates below).
+
 Running list of sources for deploying **Angular SSR on Cloudflare**. Add new
 entries at the bottom of the table, incrementing the ID. Keep the description to
 one or two sentences covering what the source actually contains.
@@ -34,3 +41,24 @@ one or two sentences covering what the source actually contains.
   `NN-<slug>.md` matching the source's ID. Leave blank if no summary exists yet.
 - Prefer primary/official sources (Angular docs, Cloudflare docs) where possible;
   flag blog posts with their publish date since the SSR/Wrangler APIs move fast.
+- **Prune candidates** (kept for now, low value for our Workers-only custom build):
+  #8 and #12 (Cloudflare **Pages**-oriented), #11 (dated + unreadable). Revisit and
+  drop when we tidy the list.
+
+## Key takeaways for our custom build
+
+Distilled from the sources — decisions/context to carry into the implementation,
+**not** a spec to copy:
+
+- **Two runtime strategies exist** for `@angular/ssr` on Workers: `platform: "neutral"`
+  (strip Node APIs — sources #1, #3, #5) vs. `nodejs_compat` (shim Node APIs — source #9).
+  We will choose deliberately; not yet decided.
+- **The load-bearing pieces** are `AngularAppEngine` + `createRequestHandler` from
+  `@angular/ssr` (Web `Request`/`Response`) and the `ssr.platform` build flag (#5).
+- **Static/asset split**: browser build served via the Workers `assets` binding;
+  server build is the Worker entry — routing tries assets first, then the Worker.
+- **Analog is the alternative path** (Vite + Nitro `cloudflare_module`, #4/#7) if we
+  ever want a meta-framework instead of CLI-native SSR.
+- **Production detail worth stealing (as ideas, not code)**: `allowedHosts` /
+  `NG_ALLOWED_HOSTS` SSRF guard (#9); `provideHttpClient(withFetch())` to avoid the
+  `xhr2` path during SSR (our note on #1).
