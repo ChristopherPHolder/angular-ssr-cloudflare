@@ -33,7 +33,7 @@
         <section>
           <h3>The Genres</h3>
           <div class="movie-detail--genres">
-            @for (genre of movie.genres; track trackByGenre($index, genre)) {
+            @for (genre of movie.genres; track genre.name) {
               <a
                 class="movie-detail--genres-link"
                 [routerLink]="['/list/genre/', genre.id]"
@@ -64,7 +64,7 @@
               #castListWrapper
               class="cast-list"
               >
-              @for (c of castList().value; track trackByCast($index, c); let idx = $index) {
+              @for (c of castList().value; track c.cast_id; let idx = $index) {
                 <a
                   [routerLink]="['/detail/person/', c.id]"
                   (click)="$event.preventDefault()"

@@ -5,14 +5,11 @@ import {
   Component,
   ElementRef,
   inject,
-  TrackByFunction,
   ViewEncapsulation,
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, mergeWith, tap } from 'rxjs';
-import { TMDBMovieGenreModel } from '../../data-access/api/model/movie-genre.model';
-
+import { map, mergeWith } from 'rxjs';
 import { MovieCast, MovieDetailAdapter } from './movie-detail-page.adapter';
 import { rxActions } from '@rx-angular/state/actions';
 import { rxEffects } from '@rx-angular/state/effects';
@@ -115,10 +112,7 @@ export default class MovieDetailPageComponent {
 
   constructor() {
     this.effects.register(
-      this.ui.dialog$.pipe(
-        map((v) => v === 'show'),
-        tap(console.log),
-      ),
+      this.ui.dialog$.pipe(map((v) => v === 'show')),
       (openDialog) =>
         openDialog
           ? this.trailerDialog()?.nativeElement?.showModal()
@@ -145,7 +139,4 @@ export default class MovieDetailPageComponent {
   paginateRecommendations() {
     this.adapter.paginateRecommendations();
   }
-
-  trackByGenre: TrackByFunction<TMDBMovieGenreModel> = (_, genre) => genre.name;
-  trackByCast: TrackByFunction<MovieCast> = (_, cast) => cast.cast_id;
 }
