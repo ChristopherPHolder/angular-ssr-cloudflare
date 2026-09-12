@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -17,11 +16,9 @@ type Actions = {
   confirm: void;
 };
 @Component({
-  standalone: true,
   selector: 'app-list-remove',
   templateUrl: './list-remove.component.html',
   styleUrls: ['./list-remove.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ListRemoveComponent extends RxState<never> implements AfterViewInit {
   public adapter = inject(ListDetailAdapter);

@@ -1,7 +1,6 @@
 import { selectSlice } from '@rx-angular/state/selections';
 import { Location, NgOptimizedImage } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -32,7 +31,6 @@ type RecommendationContext = {
 };
 
 @Component({
-  standalone: true,
   imports: [
     RouterLink,
     NgOptimizedImage,
@@ -45,7 +43,6 @@ type RecommendationContext = {
   selector: 'ct-movie',
   templateUrl: './movie-detail-page.component.html',
   styleUrls: ['./movie-detail-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export default class MovieDetailPageComponent {
