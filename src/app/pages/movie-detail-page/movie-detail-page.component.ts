@@ -10,7 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, mergeWith, tap } from 'rxjs';
+import { map, mergeWith, tap } from 'rxjs';
 import { TMDBMovieGenreModel } from '../../data-access/api/model/movie-genre.model';
 
 import { MovieCast, MovieDetailAdapter } from './movie-detail-page.adapter';
@@ -74,10 +74,11 @@ export default class MovieDetailPageComponent {
     { initialValue: false }
   );
   readonly movie = toSignal(
-    this.movieCtx$.pipe(
-      map((ctx) => ctx?.value || null),
-      filter((movie) => !!movie)
-    )
+    // Do not filter out empty emissions: when navigating between movies the
+    // selector emits `null` while the next movie loads. Letting that through
+    // clears the previously shown movie instead of leaving it on screen until
+    // the new one arrives.
+    this.movieCtx$.pipe(map((ctx) => ctx?.value || null))
   );
   readonly castList = toSignal(
     this.adapter.movieCastById$.pipe(
