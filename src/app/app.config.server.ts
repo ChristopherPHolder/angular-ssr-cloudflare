@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  Injectable,
-  mergeApplicationConfig,
-} from '@angular/core';
+import { ApplicationConfig, mergeApplicationConfig, Service } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
 import { provideRxRenderStrategies } from '@rx-angular/cdk/render-strategies';
@@ -27,7 +23,7 @@ import { RxServerRenderStrategy } from './rx-server-render-strategy';
  * no loader-fallback flash. Unknown names complete without emitting so the
  * library keeps its placeholder rather than crashing on empty markup.
  */
-@Injectable()
+@Service({ autoProvided: false })
 export class ServerSvgLoadStrategy implements SvgLoadStrategy {
   config(name: string): Observable<string> {
     return of(name);
@@ -37,7 +33,7 @@ export class ServerSvgLoadStrategy implements SvgLoadStrategy {
       concatMap((name) => {
         const svg = SVG_ICONS[name];
         return svg ? of(svg) : EMPTY;
-      })
+      }),
     );
   }
 }
