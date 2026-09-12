@@ -1,12 +1,21 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AppShellComponent } from './app-shell/app-shell.component';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.scss',
-  templateUrl: './app.html',
+  template: `
+    <app-shell>
+      <router-outlet />
+    </app-shell>
+  `,
+  standalone: true,
+  imports: [RouterOutlet, AppShellComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
-  protected readonly title = signal('angular-ssr-cloudflare');
-}
+export class App {}
+
+
+
+
+

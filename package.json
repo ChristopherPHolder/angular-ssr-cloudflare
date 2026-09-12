@@ -23,8 +23,12 @@
     "@angular/platform-server": "^22.1.0",
     "@angular/router": "^22.1.0",
     "@angular/ssr": "^22.1.7",
+    "@push-based/ngx-fast-svg": "^18.1.0",
+    "@rx-angular/cdk": "^21.1.1",
+    "@rx-angular/state": "^21.1.2",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zone.js": "~0.16.0"
   },
   "devDependencies": {
     "@angular/build": "^22.1.7",

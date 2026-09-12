@@ -1,12 +1,35 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideFastSVG } from '@push-based/ngx-fast-svg';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { tmdbContentTypeInterceptor } from './data-access/api/tmdbContentTypeInterceptor';
+import { tmdbReadAccessInterceptor } from './auth/tmdb-http-interceptor.feature';
+import { provideTmdbImageLoader } from './data-access/images/image-loader';
 import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { ROUTES } from './routes';
+import {
+  provideClientHydration,
+  withEventReplay,
+  withIncrementalHydration,
+} from '@angular/platform-browser';
+import { providedPatchedSharedStylesHost } from './renderer/shared-styles-host';
+import { patchedDomRendererFactory } from './renderer/dom-renderer-factory';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(withFetch()), 
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration()
-  ]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([tmdbContentTypeInterceptor, tmdbReadAccessInterceptor])
+    ),
+    provideTmdbImageLoader(),
+    provideFastSVG({ url: (name: string) => `assets/svg-icons/${name}.svg` }),
+    provideRouter(ROUTES),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
+    providedPatchedSharedStylesHost(),
+    patchedDomRendererFactory(),
+  ],
 };
