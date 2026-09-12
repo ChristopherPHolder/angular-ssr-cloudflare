@@ -49,6 +49,7 @@ export class MovieState extends RxState<MovieModel> implements AppInitializer {
 
   movieByIdCtx = (id: string) =>
     this.select(
+      filter(({ movies }) => !!movies),
       map(({ movies: { value, loading } }) => ({
         loading,
         value: pluck(value, id),
