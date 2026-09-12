@@ -6,8 +6,8 @@ import {
   ElementRef,
   inject,
   TrackByFunction,
-  ViewChild,
   ViewEncapsulation,
+  viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, mergeWith, tap } from 'rxjs';
@@ -66,79 +66,75 @@ export default class MovieDetailPageComponent {
       mergeWith(
         this.movieCtx$.pipe(
           // select changes of video nested property
-          selectSlice(['value'], { value: ({ video }) => video })
-        )
+          selectSlice(['value'], { value: ({ video }) => video }),
+        ),
       ),
-      map((e) => e === 'load')
+      map((e) => e === 'load'),
     ),
-    { initialValue: false }
+    { initialValue: false },
   );
   readonly movie = toSignal(
     // Do not filter out empty emissions: when navigating between movies the
     // selector emits `null` while the next movie loads. Letting that through
     // clears the previously shown movie instead of leaving it on screen until
     // the new one arrives.
-    this.movieCtx$.pipe(map((ctx) => ctx?.value || null))
+    this.movieCtx$.pipe(map((ctx) => ctx?.value || null)),
   );
   readonly castList = toSignal(
     this.adapter.movieCastById$.pipe(
       map((ctx) => ({
         value: ctx.value ?? [],
         loading: ctx.loading,
-      }))
+      })),
     ),
     {
       initialValue: {
         value: [] as MovieCast[],
         loading: true,
       } satisfies CastListContext,
-    }
+    },
   );
   readonly recommendations = toSignal(
     this.adapter.infiniteScrollRecommendations$.pipe(
       map((ctx) => ({
         results: ctx.results ?? [],
         loading: ctx.loading,
-      }))
+      })),
     ),
     {
       initialValue: {
         results: [] as Movie[],
         loading: true,
       } satisfies RecommendationContext,
-    }
+    },
   );
 
-  @ViewChild('trailerDialog')
-  trailerDialog: ElementRef | undefined = undefined;
+  readonly trailerDialog = viewChild<ElementRef>('trailerDialog');
 
-  @ViewChild('castListWrapper')
-  castListWrapper: ElementRef<HTMLElement> | undefined = undefined;
+  readonly castListWrapper = viewChild<ElementRef<HTMLElement>>('castListWrapper');
 
   constructor() {
     this.effects.register(
       this.ui.dialog$.pipe(
         map((v) => v === 'show'),
-        tap(console.log)
+        tap(console.log),
       ),
       (openDialog) =>
         openDialog
-          ? this.trailerDialog?.nativeElement?.showModal()
-          : this.trailerDialog?.nativeElement.close()
+          ? this.trailerDialog()?.nativeElement?.showModal()
+          : this.trailerDialog()?.nativeElement.close(),
     );
   }
 
   move(increment: number) {
-    if (this.castListWrapper) {
-      const scrollLeft = this.castListWrapper.nativeElement.scrollLeft;
+    const castListWrapper = this.castListWrapper();
+    if (castListWrapper) {
+      const scrollLeft = castListWrapper.nativeElement.scrollLeft;
       const newScrollLetf = scrollLeft - increment;
-      this.castListWrapper.nativeElement.scrollLeft =
+      castListWrapper.nativeElement.scrollLeft =
         newScrollLetf > 0
           ? Math.max(0, newScrollLetf)
-          : Math.min(
-              newScrollLetf,
-              this.castListWrapper.nativeElement.children.length * increment
-            );
+          : Math.min(newScrollLetf, castListWrapper.nativeElement.children.length * increment);
     }
   }
 

@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input, TrackByFunction, ViewEncapsulation,} from '@angular/core';
-import {trackByIndex} from '../../../shared/cdk/track-by';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TrackByFunction,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
+import { trackByIndex } from '../../../shared/cdk/track-by';
 import { NgClass } from '@angular/common';
 
 const range = 10;
@@ -18,22 +25,19 @@ const starsArray: number[] = new Array(numStars).fill(1);
       @for (fill of stars; track trackByIndex($index, fill)) {
         <span
           class="star"
-        [ngClass]="{
-          'star-half': fill === 0,
-          'star-empty': fill === -1
-        }"
+          [ngClass]="{
+            'star-half': fill === 0,
+            'star-empty': fill === -1,
+          }"
           >★</span
-          >
-        }
-      </div>
-      @if (showRating) {
-        <div class="rating-value">{{ rating }}</div>
+        >
       }
-    `,
-  styleUrls: [
-    'star-rating.component.scss',
-    '../../component/tooltip/_tooltip.scss',
-  ],
+    </div>
+    @if (showRating()) {
+      <div class="rating-value">{{ rating }}</div>
+    }
+  `,
+  styleUrls: ['star-rating.component.scss', '../../component/tooltip/_tooltip.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
@@ -41,12 +45,12 @@ export class StarRatingComponent {
   range = range;
   numStars = numStars;
   stars: number[] = starsArray;
-  @Input() showRating = false;
+  readonly showRating = input(false);
   tooltipText = `0 average rating`;
   trackByIndex: TrackByFunction<number> = trackByIndex();
 
   private _rating = 5;
-  @Input({required: true})
+  @Input({ required: true })
   set rating(rating: number) {
     this._rating = rating || 0;
 
