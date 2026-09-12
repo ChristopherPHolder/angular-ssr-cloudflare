@@ -5,31 +5,38 @@ import {
 } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
-import { EMPTY, Observable, of } from 'rxjs';
+import { concatMap, EMPTY, Observable, of } from 'rxjs';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
+import { SVG_ICONS } from './renderer/svg-icons';
 
 /**
- * Server-safe SVG load strategy.
+ * Server-side SVG load strategy for the Cloudflare Workers runtime.
  *
- * The default `SvgLoadStrategyImpl` from ngx-fast-svg reads `window` in its
- * constructor, which throws during SSR. The original (Node) app worked around
- * this by reading icons from disk via `node:fs`, but that is not available on
- * the Cloudflare Workers runtime (`ssr.platform: "neutral"`).
+ * The default `SvgLoadStrategyImpl` reads `window` in its constructor (throws
+ * under SSR) and fetches icons over HTTP, and the original Node app read them
+ * from disk with `node:fs` — neither works on Workers (`ssr.platform:
+ * "neutral"`, no `window`, no filesystem).
  *
- * On the server we skip icon loading entirely: `load` completes without
- * emitting, so no SVG is cached into the server DOM (emitting an empty string
- * would make ngx-fast-svg parse `null` and crash). The suspense placeholder is
- * rendered during SSR and the browser strategy fetches the real icons after
- * hydration.
+ * Instead icons are inlined into the server bundle at build time (see
+ * `renderer/svg-icons.ts`). The strategy resolves each icon name to its markup
+ * synchronously, so the real `<svg>` is rendered into the SSR HTML and
+ * ngx-fast-svg hydrates it from the DOM on the client — no network request and
+ * no loader-fallback flash. Unknown names complete without emitting so the
+ * library keeps its placeholder rather than crashing on empty markup.
  */
 @Injectable()
 export class ServerSvgLoadStrategy implements SvgLoadStrategy {
-  config(url: string): Observable<string> {
-    return of(url);
+  config(name: string): Observable<string> {
+    return of(name);
   }
-  load(): Observable<string> {
-    return EMPTY;
+  load(name$: Observable<string>): Observable<string> {
+    return name$.pipe(
+      concatMap((name) => {
+        const svg = SVG_ICONS[name];
+        return svg ? of(svg) : EMPTY;
+      })
+    );
   }
 }
 
@@ -37,7 +44,9 @@ const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(withRoutes(serverRoutes)),
     provideFastSVG({
-      url: (name: string) => `assets/svg-icons/${name}.svg`,
+      // Pass the icon name straight through; the strategy resolves it against
+      // the inlined icon map rather than fetching a URL.
+      url: (name: string) => name,
       svgLoadStrategy: ServerSvgLoadStrategy,
     }),
   ],

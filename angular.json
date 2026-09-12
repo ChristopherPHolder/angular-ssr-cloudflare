@@ -26,6 +26,9 @@
             "polyfills": [
               "zone.js"
             ],
+            "loader": {
+              ".svg": "text"
+            },
             "inlineStyleLanguage": "scss",
             "assets": [
               {
