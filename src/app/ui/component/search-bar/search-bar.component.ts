@@ -1,34 +1,21 @@
-import { RxState } from '@rx-angular/state';
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
   ElementRef,
   inject,
-  Input,
-  Output,
+  input,
+  linkedSignal,
+  signal,
   ViewEncapsulation,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  filter,
-  fromEvent,
-  map,
-  merge,
-  Observable,
-  startWith,
-  switchMap,
-  take,
-  withLatestFrom,
-} from 'rxjs';
+import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, fromEvent, map, merge, Observable, switchMap, take } from 'rxjs';
 import { preventDefault, rxActions } from '@rx-angular/state/actions';
-import { coerceObservable } from '@rx-angular/cdk/coercing';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 
 type UiActions = {
-  searchChange: string;
   formClick: Event;
-  outsideFormClick: Event;
   formSubmit: Event;
 };
 
@@ -52,7 +39,7 @@ type UiActions = {
         aria-label="Search Input"
         #searchInput
         [value]="search()"
-        (change)="ui.searchChange($any(searchInput.value))"
+        (change)="search.set(searchInput.value)"
         placeholder="Search for a movie..."
         class="input"
       />
@@ -60,48 +47,32 @@ type UiActions = {
   `,
   styleUrls: ['search-bar.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
-  providers: [RxState],
+  host: {
+    '[class.opened]': 'open()',
+  },
 })
 export class SearchBarComponent {
   private readonly document = inject(DOCUMENT);
-  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly state = inject<RxState<{ search: string; open: boolean }>>(RxState);
+
   readonly ui = rxActions<UiActions>(({ transforms }) =>
-    transforms({
-      searchChange: String,
-      formSubmit: preventDefault,
-    }),
+    transforms({ formSubmit: preventDefault }),
   );
 
-  readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
-  readonly formRef = viewChild.required<ElementRef<HTMLFormElement>>('form');
+  private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
+  private readonly formRef = viewChild.required<ElementRef<HTMLFormElement>>('form');
 
-  @Input()
-  set query(v: string | Observable<string>) {
-    this.state.connect('search', coerceObservable(v) as Observable<string>);
-  }
+  readonly query = input('');
 
-  readonly search = toSignal(this.state.select('search'), {
-    initialValue: '',
-  });
-  @Output() searchSubmit = this.ui.formSubmit$.pipe(
-    withLatestFrom(this.state.select('search')),
-    map(([, search]) => search),
+  /** Seeded from the routed query, then owned by whatever the user types. */
+  protected readonly search = linkedSignal(() => this.query());
+
+  protected readonly open = signal(false);
+
+  readonly searchSubmit = outputFromObservable(
+    this.ui.formSubmit$.pipe(map(() => this.search())),
   );
 
-  private readonly closedFormClick$ = this.ui.formClick$.pipe(
-    withLatestFrom(this.state.select('open')),
-    filter(([, opened]) => !opened),
-  );
-
-  private outsideClick(): Observable<Event> {
-    // any click on the page (we can't use the option `once:true` as we might get multiple false trigger)
-    return fromEvent(this.document, 'click').pipe(
-      // forward if the form did NOT trigger the click
-      // means we clicked somewhere else in the page but the form
-      filter((e) => !this.formRef().nativeElement.contains(e.target as Node)),
-    );
-  }
+  private readonly closedFormClick$ = this.ui.formClick$.pipe(filter(() => !this.open()));
 
   /**
    * **🚀 Perf Tip for TBT, TTI:**
@@ -118,22 +89,23 @@ export class SearchBarComponent {
     switchMap(() => this.outsideClick().pipe(take(1))),
   );
 
-  private readonly classList = this.elementRef.nativeElement.classList;
-
   constructor() {
-    this.state.set({ open: false });
-    this.state.connect('search', this.ui.searchChange$.pipe(startWith('')));
-    this.state.connect('open', merge(this.ui.formSubmit$, this.outsideOpenFormClick$), () => false);
-    this.state.connect('open', this.closedFormClick$, () => true);
-    this.state.hold(this.state.select('open'), this.setOpenedStyling);
-    this.state.hold(this.closedFormClick$, this.focusInput);
+    merge(this.ui.formSubmit$, this.outsideOpenFormClick$)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.open.set(false));
+
+    this.closedFormClick$.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.open.set(true);
+      this.inputRef().nativeElement.focus();
+    });
   }
 
-  private readonly focusInput = () => {
-    return this.inputRef().nativeElement.focus();
-  };
-
-  private readonly setOpenedStyling = (opened: boolean) => {
-    opened ? this.classList.add('opened') : this.classList.remove('opened');
-  };
+  private outsideClick(): Observable<Event> {
+    // any click on the page (we can't use the option `once:true` as we might get multiple false trigger)
+    return fromEvent(this.document, 'click').pipe(
+      // forward if the form did NOT trigger the click
+      // means we clicked somewhere else in the page but the form
+      filter((e) => !this.formRef().nativeElement.contains(e.target as Node)),
+    );
+  }
 }

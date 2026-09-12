@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  ViewEncapsulation,
-  input,
-} from '@angular/core';
-import { rxActions } from '@rx-angular/state/actions';
+import { Component, model, ViewEncapsulation } from '@angular/core';
 
 import { BackdropComponent } from '../backdrop/backdrop.component';
 
@@ -12,7 +6,7 @@ import { BackdropComponent } from '../backdrop/backdrop.component';
   imports: [BackdropComponent],
   selector: 'ui-side-drawer',
   template: `
-    <ui-backdrop (click)="ui.openedChange(false)" [opened]="opened()"></ui-backdrop>
+    <ui-backdrop (click)="opened.set(false)" [opened]="opened()"></ui-backdrop>
     <div class="side-drawer" [class.opened]="opened()">
       <ng-content></ng-content>
     </div>
@@ -21,7 +15,5 @@ import { BackdropComponent } from '../backdrop/backdrop.component';
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class SideDrawerComponent {
-  readonly ui = rxActions<{ openedChange: boolean }>();
-  readonly opened = input(false);
-  @Output() openedChange = this.ui.openedChange$;
+  readonly opened = model(false);
 }
