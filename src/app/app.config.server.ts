@@ -5,10 +5,12 @@ import {
 } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
+import { provideRxRenderStrategies } from '@rx-angular/cdk/render-strategies';
 import { concatMap, EMPTY, Observable, of } from 'rxjs';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 import { SVG_ICONS } from './renderer/svg-icons';
+import { RxServerRenderStrategy } from './rx-server-render-strategy';
 
 /**
  * Server-side SVG load strategy for the Cloudflare Workers runtime.
@@ -43,6 +45,10 @@ export class ServerSvgLoadStrategy implements SvgLoadStrategy {
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(withRoutes(serverRoutes)),
+    // Force synchronous (native) rendering during SSR so rx-angular's
+    // concurrent strategies don't cause a hydration flicker. See
+    // ./rx-server-render-strategy.
+    provideRxRenderStrategies(RxServerRenderStrategy),
     provideFastSVG({
       // Pass the icon name straight through; the strategy resolves it against
       // the inlined icon map rather than fetching a URL.
