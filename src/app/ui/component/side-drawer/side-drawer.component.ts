@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   Output,
   ViewEncapsulation,
+  input,
 } from '@angular/core';
 import { rxActions } from '@rx-angular/state/actions';
 
@@ -14,11 +14,8 @@ import { BackdropComponent } from '../backdrop/backdrop.component';
   imports: [BackdropComponent],
   selector: 'ui-side-drawer',
   template: `
-    <ui-backdrop
-      (click)="ui.openedChange(false)"
-      [opened]="opened"
-    ></ui-backdrop>
-    <div class="side-drawer" [class.opened]="opened">
+    <ui-backdrop (click)="ui.openedChange(false)" [opened]="opened()"></ui-backdrop>
+    <div class="side-drawer" [class.opened]="opened()">
       <ng-content></ng-content>
     </div>
   `,
@@ -28,6 +25,6 @@ import { BackdropComponent } from '../backdrop/backdrop.component';
 })
 export class SideDrawerComponent {
   readonly ui = rxActions<{ openedChange: boolean }>();
-  @Input() opened = false;
+  readonly opened = input(false);
   @Output() openedChange = this.ui.openedChange$;
 }

@@ -7,8 +7,8 @@ import {
   inject,
   Input,
   Output,
-  ViewChild,
   ViewEncapsulation,
+  viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -46,11 +46,7 @@ type UiActions = {
       [tabIndex]="0"
       (focus)="ui.formClick($event)"
     >
-      <button
-        type="submit"
-        class="magnifier-button"
-        aria-label="Search for a movie"
-      >
+      <button type="submit" class="magnifier-button" aria-label="Search for a movie">
         <fast-svg name="search" size="1.125em"></fast-svg>
       </button>
       <input
@@ -72,15 +68,16 @@ type UiActions = {
 export class SearchBarComponent {
   private readonly document = inject(DOCUMENT);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly state =
-    inject<RxState<{ search: string; open: boolean }>>(RxState);
-  readonly ui = rxActions<UiActions>(({transforms}) => transforms({
-    searchChange: String,
-    formSubmit: preventDefault,
-  }));
+  private readonly state = inject<RxState<{ search: string; open: boolean }>>(RxState);
+  readonly ui = rxActions<UiActions>(({ transforms }) =>
+    transforms({
+      searchChange: String,
+      formSubmit: preventDefault,
+    }),
+  );
 
-  @ViewChild('searchInput') inputRef!: ElementRef<HTMLInputElement>;
-  @ViewChild('form') formRef!: ElementRef<HTMLFormElement>;
+  readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
+  readonly formRef = viewChild.required<ElementRef<HTMLFormElement>>('form');
 
   @Input()
   set query(v: string | Observable<string>) {
@@ -92,12 +89,12 @@ export class SearchBarComponent {
   });
   @Output() searchSubmit = this.ui.formSubmit$.pipe(
     withLatestFrom(this.state.select('search')),
-    map(([, search]) => search)
+    map(([, search]) => search),
   );
 
   private readonly closedFormClick$ = this.ui.formClick$.pipe(
     withLatestFrom(this.state.select('open')),
-    filter(([, opened]) => !opened)
+    filter(([, opened]) => !opened),
   );
 
   private outsideClick(): Observable<Event> {
@@ -105,7 +102,7 @@ export class SearchBarComponent {
     return fromEvent(this.document, 'click').pipe(
       // forward if the form did NOT trigger the click
       // means we clicked somewhere else in the page but the form
-      filter((e) => !this.formRef.nativeElement.contains(e.target as Node))
+      filter((e) => !this.formRef().nativeElement.contains(e.target as Node)),
     );
   }
 
@@ -121,7 +118,7 @@ export class SearchBarComponent {
    * This way we reduce the active event listeners to a minimum.
    */
   private readonly outsideOpenFormClick$ = this.closedFormClick$.pipe(
-    switchMap(() => this.outsideClick().pipe(take(1)))
+    switchMap(() => this.outsideClick().pipe(take(1))),
   );
 
   private readonly classList = this.elementRef.nativeElement.classList;
@@ -129,18 +126,14 @@ export class SearchBarComponent {
   constructor() {
     this.state.set({ open: false });
     this.state.connect('search', this.ui.searchChange$.pipe(startWith('')));
-    this.state.connect(
-      'open',
-      merge(this.ui.formSubmit$, this.outsideOpenFormClick$),
-      () => false
-    );
+    this.state.connect('open', merge(this.ui.formSubmit$, this.outsideOpenFormClick$), () => false);
     this.state.connect('open', this.closedFormClick$, () => true);
     this.state.hold(this.state.select('open'), this.setOpenedStyling);
     this.state.hold(this.closedFormClick$, this.focusInput);
   }
 
   private readonly focusInput = () => {
-    return this.inputRef.nativeElement.focus();
+    return this.inputRef().nativeElement.focus();
   };
 
   private readonly setOpenedStyling = (opened: boolean) => {
