@@ -1,7 +1,6 @@
 import { RxState } from '@rx-angular/state';
 import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -34,7 +33,6 @@ type UiActions = {
 };
 
 @Component({
-  standalone: true,
   imports: [FastSvgComponent],
   selector: 'ui-search-bar',
   template: `
@@ -61,7 +59,6 @@ type UiActions = {
     </form>
   `,
   styleUrls: ['search-bar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   providers: [RxState],
 })

@@ -1,6 +1,5 @@
 import { selectSlice } from '@rx-angular/state/selections';
 import {
-  ChangeDetectionStrategy,
   Component,
   inject,
   ViewEncapsulation,
@@ -16,13 +15,11 @@ import { MovieListComponent } from '../../ui/pattern/movie-list/movie-list.compo
 type Heading = { main: string; sub: string };
 
 @Component({
-  standalone: true,
   imports: [MovieListComponent],
   selector: 'ct-movies-list',
   templateUrl: './movie-list-page.component.html',
   styleUrls: ['./movie-list-page.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class MovieListPageComponent {
   private readonly adapter = inject(MovieListPageAdapter);

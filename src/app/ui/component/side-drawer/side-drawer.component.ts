@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Output,
   ViewEncapsulation,
@@ -10,7 +9,6 @@ import { rxActions } from '@rx-angular/state/actions';
 import { BackdropComponent } from '../backdrop/backdrop.component';
 
 @Component({
-  standalone: true,
   imports: [BackdropComponent],
   selector: 'ui-side-drawer',
   template: `
@@ -20,7 +18,6 @@ import { BackdropComponent } from '../backdrop/backdrop.component';
     </div>
   `,
   styleUrls: ['./side-drawer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class SideDrawerComponent {

@@ -1,6 +1,5 @@
 import { rxState } from '@rx-angular/state';
 import {
-  ChangeDetectionStrategy,
   Component,
   inject,
   TrackByFunction,
@@ -40,7 +39,6 @@ type Actions = {
 };
 
 @Component({
-  standalone: true,
   imports: [
     RouterLink,
     FastSvgComponent,
@@ -54,7 +52,6 @@ type Actions = {
   selector: 'app-shell',
   templateUrl: './app-shell.component.html',
   styleUrls: ['./app-shell.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class AppShellComponent {

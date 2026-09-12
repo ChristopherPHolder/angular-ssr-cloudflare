@@ -1,7 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
 import { RxState } from '@rx-angular/state';
 import {
-  ChangeDetectionStrategy,
   Component,
   inject,
   Input,
@@ -23,7 +22,6 @@ import { Movie } from '../../../state/movie.state';
 type UiActions = { paginate: boolean };
 
 @Component({
-  standalone: true,
   imports: [
     RouterLink,
     StarRatingComponent,
@@ -84,7 +82,6 @@ type UiActions = { paginate: boolean };
   `,
   styleUrls: ['./movie-list.component.scss'],
   providers: [RxState],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class MovieListComponent {

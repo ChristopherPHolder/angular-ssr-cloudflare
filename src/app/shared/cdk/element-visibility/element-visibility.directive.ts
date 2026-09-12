@@ -13,7 +13,6 @@ import { takeUntil } from 'rxjs';
 type Actions = { visible: boolean; onDestroy: void };
 
 @Directive({
-  standalone: true,
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[elementVisibility]',
 })

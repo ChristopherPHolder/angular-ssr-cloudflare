@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Input,
   ViewEncapsulation,
@@ -11,7 +10,6 @@ const numStars = 5;
 const starsArray: number[] = new Array(numStars).fill(1);
 
 @Component({
-  standalone: true,
   selector: 'ui-star-rating',
   template: `
     <span class="tooltip">
@@ -34,7 +32,6 @@ const starsArray: number[] = new Array(numStars).fill(1);
     }
   `,
   styleUrls: ['star-rating.component.scss', '../../component/tooltip/_tooltip.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class StarRatingComponent {

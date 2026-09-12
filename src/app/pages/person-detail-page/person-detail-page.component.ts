@@ -1,5 +1,5 @@
 import { Location, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PersonDetailAdapter } from './person-detail-page.adapter';
 import { SORT_VALUES } from '../../data-access/api/sort/sort.data';
@@ -10,12 +10,10 @@ import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { Movie } from '../../state/movie.state';
 
 @Component({
-  standalone: true,
   imports: [NgOptimizedImage, DetailGridComponent, MovieListComponent, FastSvgComponent],
   selector: 'ct-person',
   templateUrl: './person-detail-page.component.html',
   styleUrls: ['./person-detail-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
 export default class PersonDetailPageComponent {
