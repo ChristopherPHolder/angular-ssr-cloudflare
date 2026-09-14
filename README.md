@@ -33,15 +33,16 @@ with event replay.
 
 ## Stack
 
-| Concern   | Choice                                                                   |
-| --------- | ------------------------------------------------------------------------ |
-| Framework | Angular 22 (standalone, zoneless, signal-based APIs)                     |
-| SSR       | `@angular/ssr` with `platform: "neutral"`                                |
-| Host      | Cloudflare Workers (static assets + SSR fallback)                        |
-| State     | [`@rx-angular/state`](https://www.rx-angular.io/)                        |
-| Icons     | [`@push-based/ngx-fast-svg`](https://github.com/push-based/ngx-fast-svg) |
-| Data      | TMDB REST API (v3 + v4)                                                  |
-| Tooling   | Angular CLI, Wrangler, Vitest, Prettier                                  |
+| Concern   | Choice                                                                     |
+| --------- | -------------------------------------------------------------------------- |
+| Framework | Angular 22 (standalone, zoneless, signal-based APIs)                       |
+| SSR       | `@angular/ssr` with `platform: "neutral"`                                  |
+| Host      | Cloudflare Workers (static assets + SSR fallback)                          |
+| State     | [`@rx-angular/state`](https://www.rx-angular.io/)                          |
+| Icons     | [`@push-based/ngx-fast-svg`](https://github.com/push-based/ngx-fast-svg)   |
+| Bundling  | [`@rx-angular/rebundle`](https://www.rx-angular.io/docs/packages/rebundle) |
+| Data      | TMDB REST API (v3 + v4)                                                    |
+| Tooling   | Angular CLI, Wrangler, Vitest, Prettier                                    |
 
 ## Getting started
 
@@ -82,6 +83,30 @@ This builds into `dist/` (`dist/browser` for assets, `dist/server/server.mjs` fo
 the Worker) and serves it through `workerd` — the same runtime Cloudflare runs in
 production, so Node-API leaks surface here rather than after deploy.
 
+## Bundle output
+
+esbuild's code splitting optimises for the least code per entry point, not for
+the fewest requests, so a lazy-routed app like this one ends up with a long tail
+of tiny initial chunks. [`@rx-angular/rebundle`](https://www.rx-angular.io/docs/packages/rebundle)
+runs as an esbuild plugin, reads the emitted module graph, and merges chunks in
+memory before they are written to disk — no source changes.
+
+It is wired into the production build only, via
+[`rebundle.plugin.ts`](rebundle.plugin.ts) and the `plugins` option on the
+`@angular-builders/custom-esbuild:application` builder. The plugin skips the
+server bundle and non-optimised builds, so `ng serve` is untouched.
+
+On this app:
+
+| Production build       | Before | After  |
+| ---------------------- | ------ | ------ |
+| Initial JS requests    | 6      | 1      |
+| Initial transfer size  | 109 kB | 101 kB |
+| Browser JS files total | 39     | 34     |
+
+The whole initial payload is now a single `main-*.js`; the lazy route chunks are
+still split per route.
+
 ## Deploying
 
 ```bash
@@ -102,7 +127,7 @@ lets Cloudflare serve static files before the Worker is ever invoked.
 | Script               | What it does                                                  |
 | -------------------- | ------------------------------------------------------------- |
 | `npm start`          | Angular dev server with SSR at `localhost:4200`               |
-| `npm run build`      | Production build into `dist/`                                 |
+| `npm run build`      | Production build into `dist/`, rebundled                      |
 | `npm run watch`      | Development build in watch mode                               |
 | `npm run preview`    | Build, then serve the Worker locally via Wrangler             |
 | `npm run deploy`     | Build, then deploy to Cloudflare Workers                      |
