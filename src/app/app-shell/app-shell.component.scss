@@ -31,7 +31,7 @@
   grid-area: strip;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: var(--ply-strip);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -220,7 +220,7 @@
   position: absolute;
   top: calc(100% + var(--s-2));
   right: 0;
-  z-index: 3;
+  z-index: var(--ply-leaf);
   min-width: 200px;
   padding: var(--s-2) 0;
   background: var(--ply-2);

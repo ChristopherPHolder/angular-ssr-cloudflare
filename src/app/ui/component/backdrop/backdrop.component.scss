@@ -1,7 +1,7 @@
 :host {
   position: fixed;
   inset: var(--strip) 0 0 0;
-  z-index: 3;
+  z-index: var(--ply-leaf);
   visibility: hidden;
   opacity: 0;
   background: var(--backdrop);

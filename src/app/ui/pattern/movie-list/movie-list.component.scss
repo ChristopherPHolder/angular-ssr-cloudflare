@@ -30,6 +30,9 @@
   content: '';
   position: absolute;
   inset: 0;
+  /* Local ordering inside the frame: the ring sits over the poster, and the
+     mark over the ring. Neither enters the --ply-* ladder, which ranks
+     whole surfaces against each other. */
   z-index: 1;
   pointer-events: none;
   border: 2px solid var(--ply-0);
@@ -65,7 +68,7 @@
      is what makes it a mark drawn over the contact sheet rather than an
      inset ring, i.e. the UI border the contract exists to refuse. */
   inset: -5%;
-  z-index: 2;
+  z-index: 2; /* local: over the focus ring, see above */
   color: var(--mark);
   opacity: 0;
   pointer-events: none;
@@ -110,7 +113,7 @@
    off-screen saving the property exists for is not given up. */
 .frame:hover,
 .frame:focus-visible {
-  z-index: 1;
+  z-index: var(--ply-raise);
   content-visibility: visible;
 }
 

@@ -76,7 +76,7 @@
 .results-overlay {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 1; /* local: results sit over the box they belong to */
   overflow-y: auto;
   background: var(--ply-1);
   border: var(--hair) solid var(--rule-strong);
