@@ -110,6 +110,13 @@ p {
   color: var(--ink-dim);
 }
 
+/* Measure applies to prose, not to a label or a full-width block. */
+.code,
+.header--label,
+[class*='--label'] {
+  max-width: none;
+}
+
 a {
   color: var(--ink);
   text-decoration: none;
@@ -318,9 +325,18 @@ a:hover {
    pages inherit the rhythm instead of each restating it.
    ────────────────────────────────────────────────────────────────────────── */
 
+/* An article followed by another hands the rule over instead of paying the
+   page's bottom padding and opening a dead band between them. */
+.sheet article:has(+ article) {
+  padding-bottom: 0;
+}
+
+/* One content edge. The inset lives on the article, so the heading, the
+   ruled sections and the strip grid all start on the same line — previously
+   the heading was inset and the grid was flush, which read as a break. */
 .sheet article {
   display: block;
-  padding: 0 0 var(--s-8);
+  padding: 0 var(--s-5) var(--s-8);
 }
 
 .sheet article > header {
@@ -328,7 +344,7 @@ a:hover {
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--s-2) var(--s-4);
-  padding: var(--s-6) var(--s-5) var(--s-4);
+  padding: var(--s-6) 0 var(--s-4);
 }
 
 .sheet article > header > h1 {
@@ -349,7 +365,7 @@ a:hover {
 }
 
 .sheet section {
-  padding: var(--s-5);
+  padding: var(--s-5) 0;
   border-top: var(--hair) solid var(--rule);
 }
 
@@ -364,12 +380,12 @@ a:hover {
 }
 
 @media (min-width: 48rem) {
-  .sheet article > header {
-    padding: var(--s-7) var(--s-6) var(--s-5);
+  .sheet article {
+    padding-inline: var(--s-6);
   }
 
-  .sheet section {
-    padding: var(--s-5) var(--s-6);
+  .sheet article > header {
+    padding: var(--s-7) 0 var(--s-5);
   }
 }
 

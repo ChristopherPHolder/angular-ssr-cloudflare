@@ -85,10 +85,14 @@ import { Movie } from '../../../state/movie.state';
         <div (elementVisibility)="onVisible($event)"></div>
       </ui-grid-list>
     } @else {
-      <p class="empty">
-        <fast-svg class="empty--icon" name="sad" size="20" />
-        <span>Nothing in the archive matches that.</span>
-      </p>
+      <div class="empty">
+        <p class="empty--label code">
+          <fast-svg class="empty--icon" name="sad" size="16" />
+          <span>No frames</span>
+        </p>
+        <p class="empty--text">Nothing in the archive matches that.</p>
+        <a class="btn" routerLink="/list/category/popular">Browse popular</a>
+      </div>
     }
   `,
   styleUrls: ['./movie-list.component.scss'],

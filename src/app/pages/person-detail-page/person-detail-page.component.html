@@ -45,52 +45,6 @@
   } @else {
     <div class="loader"></div>
   }
-  @if (personCtx()?.value; as person) {
-    <ui-detail-grid>
-      <div detailGridMedia>
-        <img
-          class="aspectRatio-2-3 fit-cover"
-          [ngSrc]="person.imgSrc"
-          [ngSrcset]="person.imgSrcset"
-          [sizes]="person.imgSizes"
-          [width]="person.imgWidth"
-          [height]="person.imgHeight"
-          priority="high"
-          [alt]="'Photograph of ' + person.name"
-          [title]="person?.name"
-          data-uf="hero-img"
-        />
-      </div>
-      <div detailGridDescription>
-        <header>
-          <h1>{{ person.name }}</h1>
-          <p class="header--label code">{{ person.birthday }}</p>
-        </header>
-        <section>
-          <h3>The Biography</h3>
-          <p>{{ person.biography || 'There is no synopsis available...' }}</p>
-        </section>
-        <section class="movie-detail--ad-section-links">
-          @if (person.imdb_id) {
-            <a
-              class="btn"
-              target="_blank"
-              rel="noopener noreferrer"
-              [href]="'https://www.imdb.com/person/' + person.imdb_id"
-            >
-              IMDB
-              <fast-svg class="btn__icon" name="imdb"></fast-svg>
-            </a>
-          }
-          <button aria-label="Back" class="btn primary-button" (click)="back()">
-            <fast-svg name="back" size="1em"></fast-svg>&nbsp; Back
-          </button>
-        </section>
-      </div>
-    </ui-detail-grid>
-  } @else {
-    <div class="loader"></div>
-  }
 </article>
 <article>
   @if (personCtx()?.value; as p) {
@@ -99,6 +53,7 @@
     </header>
   }
   @if (sortingModel(); as sorting) {
+    <div class="sort">
     <label for="sort">Sort</label>
     <div class="select-wrapper">
       <input
@@ -125,6 +80,7 @@
       >
         &nbsp;
       </button>
+    </div>
     </div>
   }
   <ui-movie-list (paginate)="paginate()" [movies]="infiniteScrollRecommendations().results">

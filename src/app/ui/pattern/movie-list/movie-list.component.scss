@@ -162,6 +162,9 @@
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--ink);
+  /* Always two lines of space, so a one-line title and a two-line title put
+     their rating bar on the same baseline and the row keeps its rhythm. */
+  min-height: 2.6em;
   /* Two lines, then clip: the strip's rhythm survives a long title. */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -172,13 +175,32 @@
 
 /* ─── empty state ─── */
 
+/* A designed empty state: a frame's worth of ruled sheet with the reason
+   written on it, not one line floating in a void. */
 .empty {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--s-3);
-  padding: var(--s-8) var(--s-5);
+  max-width: none;
+  padding: var(--s-8) 0;
   border-top: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
   color: var(--ink-dim);
+}
+
+.empty--label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.empty--text {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--t-lead);
+  color: var(--ink);
 }
 
 .empty--icon {

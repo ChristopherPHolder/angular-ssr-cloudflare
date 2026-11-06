@@ -43,3 +43,33 @@
   object-fit: cover;
   background: var(--ply-1);
 }
+
+/* With nothing to rule, the grid drops its frame lines: otherwise its top
+   and left borders draw an orphan corner around the empty state. */
+ui-grid-list:has(.empty) {
+  border: none;
+}
+
+/* The empty state spans the grid rather than sitting in one dead cell. */
+.empty {
+  grid-column: 1 / -1;
+  border-top: var(--hair) solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-8) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.empty--label {
+  margin: 0;
+  max-width: none;
+}
+
+.empty--text {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--t-lead);
+  color: var(--ink);
+}

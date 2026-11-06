@@ -4,7 +4,10 @@
 :host {
   display: grid;
   grid-template-columns: 1fr;
-  align-items: start;
+  /* stretch, not start: the plate column's rule then runs the full height of
+     the card, so the space beneath a short photo reads as the column it is
+     rather than as a hole in the page. */
+  align-items: stretch;
   border-bottom: var(--hair) solid var(--rule);
 }
 
@@ -13,12 +16,12 @@
 }
 
 .grid--plate {
-  padding: var(--s-5);
+  padding: var(--s-5) 0;
   border-bottom: var(--hair) solid var(--rule);
 }
 
 .grid--description {
-  padding: var(--s-5);
+  padding: var(--s-5) 0;
 }
 
 @media (min-width: 48rem) {
@@ -30,11 +33,13 @@
   .grid--plate {
     border-bottom: none;
     border-right: var(--hair) solid var(--rule);
-    position: sticky;
-    top: calc(var(--strip) + var(--s-5));
+    padding: var(--s-5) var(--s-6) var(--s-5) 0;
+    /* Not sticky: the card is short enough that pinning it only opened a
+       long void beside the synopsis. */
+    position: static;
   }
 
   .grid--description {
-    padding: var(--s-5) var(--s-6);
+    padding: var(--s-5) 0 var(--s-5) var(--s-6);
   }
 }
