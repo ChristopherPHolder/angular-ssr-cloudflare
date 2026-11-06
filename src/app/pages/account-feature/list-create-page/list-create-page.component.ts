@@ -64,10 +64,7 @@ import { ListCreatePageAdapter } from './list-create-page.adapter';
       </button>
     </article>
   `,
-  styleUrls: [
-    './list-create-page.component.scss',
-    '../../../ui/component/button/_button.scss',
-  ],
+  styleUrls: ['./list-create-page.component.scss'],
 })
 export default class ListCreateEditPageComponent implements OnDestroy {
   public readonly adapter = inject(ListCreatePageAdapter);

@@ -10,61 +10,35 @@
           [width]="person.imgWidth"
           [height]="person.imgHeight"
           priority="high"
-          alt="poster movie"
+          [alt]="'Photograph of ' + person.name"
           [title]="person?.name"
           data-uf="hero-img"
         />
-      </div>
-      <div detailGridDescription>
-        <header>
-          <h1>{{ person.name }}</h1>
-          <h2>{{ person.birthday }}</h2>
-        </header>
-        <section>
-          <h3>The Biography</h3>
-          <p>{{ person.biography || 'There is no synopsis available...' }}</p>
-        </section>
-        <section class="movie-detail--ad-section-links">
-          @if (person.imdb_id) {
-            <a
-              class="btn"
-              target="_blank"
-              rel="noopener noreferrer"
-              [href]="'https://www.imdb.com/person/' + person.imdb_id"
-            >
-              IMDB
-              <fast-svg class="btn__icon" name="imdb"></fast-svg>
-            </a>
+
+        <!-- The same accession block the movie card carries, from the record
+             the archive actually holds on a person. -->
+        <dl class="facts">
+          <div class="facts--row">
+            <dt class="code">Born</dt>
+            <dd class="figure">{{ person.birthday || 'Unrecorded' }}</dd>
+          </div>
+          @if (person.deathday) {
+            <div class="facts--row">
+              <dt class="code">Died</dt>
+              <dd class="figure">{{ person.deathday }}</dd>
+            </div>
           }
-          <button aria-label="Back" class="btn primary-button" (click)="back()">
-            <fast-svg name="back" size="1em"></fast-svg>&nbsp; Back
-          </button>
-        </section>
-      </div>
-    </ui-detail-grid>
-  } @else {
-    <div class="loader"></div>
-  }
-  @if (personCtx()?.value; as person) {
-    <ui-detail-grid>
-      <div detailGridMedia>
-        <img
-          class="aspectRatio-2-3 fit-cover"
-          [ngSrc]="person.imgSrc"
-          [ngSrcset]="person.imgSrcset"
-          [sizes]="person.imgSizes"
-          [width]="person.imgWidth"
-          [height]="person.imgHeight"
-          priority="high"
-          alt="poster movie"
-          [title]="person?.name"
-          data-uf="hero-img"
-        />
+          @if (person.place_of_birth) {
+            <div class="facts--row">
+              <dt class="code">From</dt>
+              <dd>{{ person.place_of_birth }}</dd>
+            </div>
+          }
+        </dl>
       </div>
       <div detailGridDescription>
         <header>
           <h1>{{ person.name }}</h1>
-          <h2>{{ person.birthday }}</h2>
         </header>
         <section>
           <h3>The Biography</h3>
@@ -95,11 +69,11 @@
 <article>
   @if (personCtx()?.value; as p) {
     <header>
-      <h1>{{ p.name || '...' }} in</h1>
-      <h2>Movies</h2>
+      <h1>Filmography</h1>
     </header>
   }
   @if (sortingModel(); as sorting) {
+    <div class="sort">
     <label for="sort">Sort</label>
     <div class="select-wrapper">
       <input
@@ -126,6 +100,7 @@
       >
         &nbsp;
       </button>
+    </div>
     </div>
   }
   <ui-movie-list (paginate)="paginate()" [movies]="infiniteScrollRecommendations().results">

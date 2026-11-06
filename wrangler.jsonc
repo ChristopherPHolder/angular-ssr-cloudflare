@@ -22,6 +22,14 @@
 		"binding": "ASSETS",
 		"html_handling": "none"
 	},
+	/**
+	 * Required by `wrangler preview`, which CI runs per pull request. Previews
+	 * inherit nothing from the top level, so anything one needs separately
+	 * (vars, storage bindings) goes in here. It is empty because this Worker
+	 * has none — `assets` is not a Preview setting and stays above.
+	 * https://developers.cloudflare.com/workers/previews/configuration/
+	 */
+	"previews": {},
 	"observability": {
 		"enabled": true
 	},

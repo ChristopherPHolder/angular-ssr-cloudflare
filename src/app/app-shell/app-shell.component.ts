@@ -61,6 +61,14 @@ export class AppShellComponent {
 
   protected readonly sideDrawerOpen = signal(false);
 
+  /** The menu opened on :hover alone, which no touch device can produce. */
+  protected readonly accountMenuOpen = signal(false);
+
+  protected toggleAccountMenu(): void {
+    this.ui.loadAccountMenu();
+    this.accountMenuOpen.update((open) => !open);
+  }
+
   search$ = this.routerState.select(
     getIdentifierOfTypeAndLayoutUtil('search', 'list')
   );

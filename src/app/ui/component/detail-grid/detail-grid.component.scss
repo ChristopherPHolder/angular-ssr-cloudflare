@@ -1,39 +1,49 @@
-@use '../../token/gradient';
+/* The detail page is the accession card: the plate on the left, everything
+   written about it on the right, divided by the same hairline. */
 
 :host {
   display: grid;
-  grid-template-columns: 40% 60%;
-  max-width: 120rem;
-  margin: 0 auto 7rem;
-
-  @media only screen and (max-width: 900px) {
-    display: block;
-    grid-template-columns: unset;
-    margin-bottom: 5rem;
-  }
-
-  @media only screen and (max-width: 1300px) {
-    max-width: 110rem;
-    margin-bottom: 5rem;
-    .grid {
-      &--item {
-        padding: 2rem;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 1462.5px) {
-    max-width: 110rem;
-    margin-bottom: 6rem;
-  }
-
-  @media only screen and (max-width: 1500px) {
-    max-width: 105rem;
-  }
+  grid-template-columns: 1fr;
+  /* stretch, not start: the plate column's rule then runs the full height of
+     the card, so the space beneath a short photo reads as the column it is
+     rather than as a hole in the page. */
+  align-items: stretch;
+  border-bottom: var(--hair) solid var(--rule);
 }
 
-.grid {
-  &--item {
-    padding: 4rem;
+.grid--item {
+  min-width: 0;
+}
+
+.grid--plate {
+  padding: var(--s-5) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+/* The plate block's own layout between phone and card widths lives in the
+   page stylesheets: ng-content keeps projected markup under the parent
+   component's encapsulation, so a selector written here cannot reach it. */
+
+.grid--description {
+  padding: var(--s-5) 0;
+}
+
+@media (min-width: 56rem) {
+  :host {
+    /* The plate is held to a readable size; the card gets the rest. */
+    grid-template-columns: minmax(14rem, 22rem) 1fr;
+  }
+
+  .grid--plate {
+    border-bottom: none;
+    border-right: var(--hair) solid var(--rule);
+    padding: var(--s-5) var(--s-6) var(--s-5) 0;
+    /* Not sticky: the card is short enough that pinning it only opened a
+       long void beside the synopsis. */
+    position: static;
+  }
+
+  .grid--description {
+    padding: var(--s-5) 0 var(--s-5) var(--s-6);
   }
 }

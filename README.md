@@ -122,6 +122,33 @@ in [`vite.config.ts`](vite.config.ts) is where to consolidate them.
 
 ## Deploying
 
+Deploys are automated. Merging to `main` ships to production; opening a pull
+request ships an isolated Preview of that branch.
+
+| Trigger                    | Workflow                                          | Result                                               |
+| -------------------------- | ------------------------------------------------- | ---------------------------------------------------- |
+| Push to `main`             | [`deploy.yml`](.github/workflows/deploy.yml)      | `wrangler deploy` to production                      |
+| Pull request opened/pushed | [`preview.yml`](.github/workflows/preview.yml)    | `wrangler preview` into `pr-<n>`, URL posted on the PR |
+| Pull request closed        | [`preview.yml`](.github/workflows/preview.yml)    | Preview deleted                                      |
+
+Previews are Cloudflare [Previews](https://developers.cloudflare.com/workers/previews/),
+not Version URLs — each gets its own settings from the `previews` block in
+[`wrangler.jsonc`](wrangler.jsonc), empty here because this Worker has no
+bindings a Preview needs to point elsewhere. Both workflows curl the deployed
+URL afterwards, so an SSR failure behind a green build still fails the run.
+
+Fork pull requests do not receive repository secrets, so the Preview job skips
+them rather than failing.
+
+### Repository secrets
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN   # "Edit Cloudflare Workers" template
+gh secret set CLOUDFLARE_ACCOUNT_ID
+```
+
+### Deploying by hand
+
 ```bash
 npx wrangler login
 npm run deploy
@@ -143,7 +170,8 @@ Two settings in `wrangler.jsonc` matter:
 > **Deploying under your own hostname?** Angular's SSR host guard rejects any
 > request whose `Host` header isn't allow-listed. Add the new hostname to
 > `allowedHosts` in [`src/main.server.ts`](src/main.server.ts) or every request
-> will fail with `NG05706`.
+> will fail with `NG05706`. Preview hostnames are already covered by the
+> `*.toholderandrews-4c2.workers.dev` entry.
 
 ## Scripts
 

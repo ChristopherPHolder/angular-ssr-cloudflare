@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MOVIES — Popular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --flood:#0E1A38; --paper:#F7F6F2; --spot:#FF5C2B; --dim:#8E9BB5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;border-radius:0;box-shadow:none}
+  html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+  body{background:var(--flood);color:var(--paper);
+    font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.2;
+    -webkit-font-smoothing:antialiased}
+  .sheet{width:1440px;height:900px;padding:0 64px;position:relative}
+
+  /* ---- top bar ---- */
+  .top{height:64px;display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid var(--paper)}
+  .mark{font-size:20px;font-weight:700;letter-spacing:-0.04em}
+  .topright{display:flex;align-items:flex-end;gap:36px}
+  .search{width:240px;padding-bottom:5px;border-bottom:1px solid var(--dim);
+    font-size:11px;font-weight:600;letter-spacing:0.16em;color:var(--dim)}
+  .toggle{font-size:11px;font-weight:600;letter-spacing:0.16em;color:var(--dim);padding-bottom:5px}
+  .toggle b{color:var(--paper);font-weight:700}
+  .toggle span{color:var(--dim);padding:0 6px}
+
+  /* ---- masthead row ---- */
+  .masthead{display:flex;gap:64px;padding-top:30px;padding-bottom:26px}
+  .mast{width:496px;flex:none}
+  .num{font-size:150px;font-weight:700;letter-spacing:-0.04em;line-height:0.82;display:block}
+  .word{font-size:44px;font-weight:700;letter-spacing:-0.04em;line-height:1;margin-top:6px}
+  .mast hr{border:0;border-top:2px solid var(--spot);margin:18px 0 10px}
+  .meta{font-size:11px;font-weight:600;letter-spacing:0.16em;color:var(--dim)}
+
+  /* ---- index ---- */
+  .index{flex:1;display:grid;grid-template-columns:1fr 1fr;column-gap:64px;align-content:start;
+    padding-top:4px}
+  .idx{display:flex;align-items:baseline;justify-content:space-between;
+    padding:9px 0;border-bottom:1px solid rgba(247,246,242,0.2)}
+  .idx:first-child,.index > div:nth-child(5){border-top:1px solid rgba(247,246,242,0.2)}
+  .idx span{font-size:15px;font-weight:600;letter-spacing:-0.01em}
+  .idx em{font-style:normal;font-size:13px;font-weight:700;letter-spacing:-0.04em;color:var(--dim);
+    font-variant-numeric:tabular-nums}
+  .idx.alt span{color:var(--dim);font-weight:400}
+
+  /* ---- programme grid ---- */
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);column-gap:24px;row-gap:0}
+  .film{padding-bottom:20px}
+  .poster{width:100%;aspect-ratio:2/3}
+  .rule{height:1px;background:rgba(247,246,242,0.3);margin-top:12px}
+  .film.lead .rule{height:2px;background:var(--spot)}
+  .title{font-size:15px;font-weight:600;letter-spacing:-0.01em;margin-top:9px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .film.lead .title{color:var(--spot)}
+  .sub{font-size:12px;font-weight:400;color:var(--dim);margin-top:3px;
+    font-variant-numeric:tabular-nums;letter-spacing:0.01em}
+  .sub b{color:var(--spot);font-weight:600}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="top">
+    <div class="mark">MOVIES</div>
+    <div class="topright">
+      <div class="search">SEARCH</div>
+      <div class="toggle"><b>LIGHT</b><span>/</span>DARK</div>
+    </div>
+  </header>
+
+  <section class="masthead">
+    <div class="mast">
+      <span class="num">01</span>
+      <div class="word">POPULAR</div>
+      <hr>
+      <div class="meta">THIS WEEK · 20 TITLES · UPDATED DAILY</div>
+    </div>
+
+    <div class="index">
+      <div class="idx"><span>TOP RATED</span><em>02</em></div>
+      <div class="idx"><span>UPCOMING</span><em>03</em></div>
+      <div class="idx alt"><span>Action</span><em>04</em></div>
+      <div class="idx alt"><span>Comedy</span><em>05</em></div>
+      <div class="idx alt"><span>Drama</span><em>06</em></div>
+      <div class="idx alt"><span>Horror</span><em>07</em></div>
+      <div class="idx alt"><span>Science Fiction</span><em>08</em></div>
+      <div class="idx alt"><span>Thriller</span><em>09</em></div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="film lead">
+      <div class="poster" style="background:#48587E"></div>
+      <div class="rule"></div>
+      <div class="title">Dune: Part Two</div>
+      <div class="sub">2024 &nbsp;·&nbsp; <b>8.2</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#243459"></div>
+      <div class="rule"></div>
+      <div class="title">Oppenheimer</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>8.1</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#3A4A72"></div>
+      <div class="rule"></div>
+      <div class="title">Past Lives</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.8</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#1B2A50"></div>
+      <div class="rule"></div>
+      <div class="title">Poor Things</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.7</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#2E3E66"></div>
+      <div class="rule"></div>
+      <div class="title">The Zone of Interest</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.4</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#41517A"></div>
+      <div class="rule"></div>
+      <div class="title">Anatomy of a Fall</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.6</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#1F2E54"></div>
+      <div class="rule"></div>
+      <div class="title">Perfect Days</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.9</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#5A4A58"></div>
+      <div class="rule"></div>
+      <div class="title">La Chimera</div>
+      <div class="sub">2023 &nbsp;·&nbsp; <b>7.1</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#334374"></div>
+      <div class="rule"></div>
+      <div class="title">The Substance</div>
+      <div class="sub">2024 &nbsp;·&nbsp; <b>7.3</b></div>
+    </article>
+    <article class="film">
+      <div class="poster" style="background:#604A52"></div>
+      <div class="rule"></div>
+      <div class="title">Challengers</div>
+      <div class="sub">2024 &nbsp;·&nbsp; <b>7.2</b></div>
+    </article>
+  </section>
+
+</div>
+</body>
+</html>

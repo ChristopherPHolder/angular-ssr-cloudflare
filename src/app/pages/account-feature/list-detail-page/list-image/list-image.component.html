@@ -12,20 +12,20 @@
       This avoids bootstrap and template evaluation time and reduces scripting time in general.
     -->
     <img
-      class="aspectRatio-4-3 gradient"
+      class="aspectRatio-4-3"
       [ngSrc]="movie.imgSrc"
       [ngSrcset]="adapter.srcset"
       width="355"
       height="200"
-      alt="poster movie"
+      alt=""
       [title]="movie.title"
     />
     <div class="movies-list--details">
       <h3 class="movies-list--details-title">
         {{ movie.title }}
-        <h2 class="ribbon">
+        <span class="ribbon">
           {{ movie.selected ? 'Selected' : 'Select' }}
-        </h2>
+        </span>
       </h3>
     </div>
     </button>

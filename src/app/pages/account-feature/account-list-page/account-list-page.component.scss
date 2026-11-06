@@ -1,27 +1,75 @@
-@use '../../../ui/token/mixins/flex';
-@use '../../../ui/component/aspect-ratio/aspect-ratio';
-
-.account-list {
-  &--details {
-    @include flex.d-flex-v;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    @media only screen and (max-width: 500px) {
-      padding: 1.5rem;
-    }
-
-    &-title {
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-
-    &-stats {
-      color: var(--palette-text-secondary);
-    }
-  }
+.account-list--details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-3);
 }
+
+.account-list--details-title {
+  margin: 0;
+  font-size: var(--t-frame);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.account-list--details-stats {
+  margin: 0;
+  font-family: var(--font-code);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-code);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
 .ui-grid-list-item {
-  content-visibility: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  text-decoration: none;
+}
+
+.ui-grid-list-item:hover {
+  background: var(--ply-1);
+  text-decoration: none;
+}
+
+.ui-grid-list-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--ply-1);
+}
+
+/* With nothing to rule, the grid drops its frame lines: otherwise its top
+   and left borders draw an orphan corner around the empty state. */
+ui-grid-list:has(.empty) {
+  border: none;
+}
+
+/* The empty state spans the grid rather than sitting in one dead cell. */
+.empty {
+  grid-column: 1 / -1;
+  border-top: var(--hair) solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-8) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.empty--label {
+  margin: 0;
+  max-width: none;
+}
+
+.empty--text {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--t-lead);
+  color: var(--ink);
 }

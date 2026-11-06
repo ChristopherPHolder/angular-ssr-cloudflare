@@ -1,74 +1,405 @@
-@use 'app/ui/token/mixins/media';
-@use 'app/ui/token/variables/borderRadius';
-@use 'app/ui/token/variables/aspectRatio';
-@use 'app/ui/token/variables/zIndex';
-@use 'app/ui/token/variables/animations';
-@use 'app/ui/token/variables/shadow';
-@use 'app/ui/token/dark-light-mode';
-@use 'app/ui/token/typography';
+@use 'app/ui/token/tokens';
 
-* {
+/* ───────────────────────────────── reset ───────────────────────────────── */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
-  color: var(--palette-text-primary);
-  background-color: var(--palette-background-default);
-  transition: color var(--duration) var(--timing),
-    background-color var(--duration) var(--timing);
-
-  &.modal-visible {
-    .content {
-      contain: none;
-    }
-  }
+  background: var(--ply-0);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--t-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body.dark img:not([src*='.svg']) {
-  filter: var(--image-filter);
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* ─────────────────────── browser surfaces we did not draw ─────────────────
+   Selection, caret, scrollbars, focus ring and form accents ship with
+   defaults that belong to no design system. They are themed from the
+   palette like everything else.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  accent-color: var(--mark);
+  caret-color: var(--mark);
+  scrollbar-color: var(--rule-strong) transparent;
+  scrollbar-width: thin;
+}
+
+::selection {
+  background: var(--mark);
+  color: var(--mark-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border: 3px solid var(--ply-0);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mark);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────── element typography ───────────────────────── */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: var(--t-head);
+  color: var(--ink);
+}
+
+h2 {
+  font-size: var(--t-lead);
+  color: var(--ink);
+}
+
+h3 {
+  font-size: var(--t-frame);
+  color: var(--ink);
+}
+
+p {
+  margin: 0 0 var(--s-4);
+  max-width: var(--measure);
+  color: var(--ink-dim);
+}
+
+/* Measure applies to prose, not to a label or a full-width block. */
+.code,
+.header--label,
+[class*='--label'] {
+  max-width: none;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--mark);
+}
+
+/* Every figure in this interface is tabular: codes, years, ratings, counts. */
+.code,
+.figure {
+  font-family: var(--font-code);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.code {
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* ─────────────────────────── shared element classes ──────────────────────
+   Defined once, globally. They were previously partials pulled into three
+   or four component stylesheets each, which duplicated them into every one
+   of those component bundles.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: var(--hair) solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--t-fine);
+  font-family: var(--font-code);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background-color var(--step) var(--step-fn),
+    border-color var(--step) var(--step-fn);
+}
+
+.btn:hover {
+  background: var(--ply-2);
+  border-color: var(--ink-faint);
+}
+
+.btn__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.primary-button {
+  background: var(--mark);
+  border-color: var(--mark);
+  color: var(--mark-ink);
+}
+
+.primary-button:hover {
+  background: var(--mark);
+  border-color: var(--mark);
+  filter: brightness(1.12);
+}
+
+.functionality-only-button {
+  display: block;
+  height: inherit;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.tabs {
+  display: flex;
+  margin: var(--s-4) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.tab {
+  flex: 1 1 auto;
+  min-height: 42px;
+  padding: 0 var(--s-4);
+  line-height: 42px;
+  text-align: center;
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--mark);
+}
+
+.select {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: var(--hair) solid var(--rule-strong);
+  border-radius: 0;
+  background: var(--ply-1);
+  color: var(--ink);
+  font-size: var(--t-body);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .select-wrapper {
   position: relative;
 }
 
-.select {
-  width: 100%;
-  background: var(--palette-background-paper);
-  padding: 0 16px;
-  min-height: 36px;
-  border-width: 1px;
-  cursor: pointer;
-  box-shadow: var(--theme-shadow-dropdown);
-  font-size: var(--text-md);
-  -webkit-appearance: none;
-  position: relative;
+.select-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-right: var(--hair) solid var(--ink-dim);
+  border-bottom: var(--hair) solid var(--ink-dim);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.aspectRatio-2-3 {
   display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+}
 
-  &:focus {
-    outline: none;
+.aspectRatio-16-9 {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.fit-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The loader is the sheet's own idiom: a frame line advancing, not a spinner. */
+.loader {
+  width: 100%;
+  min-height: 2px;
+  margin: var(--s-6) 0;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.loader::after {
+  content: '';
+  display: block;
+  width: 28%;
+  height: 2px;
+  background: var(--mark);
+  animation: advance 900ms var(--step-fn) infinite;
+}
+
+@keyframes advance {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(460%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader::after {
+    animation: none;
+    width: 100%;
+    opacity: 0.4;
+  }
+}
+
+/* ───────────────────────── the sheet's page rhythm ──────────────────────
+   Every route is an article on the sheet with the same ruled header, so
+   pages inherit the rhythm instead of each restating it.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* An article followed by another hands the rule over instead of paying the
+   page's bottom padding and opening a dead band between them. */
+.sheet article:has(+ article) {
+  padding-bottom: 0;
+}
+
+/* One content edge. The inset lives on the article, so the heading, the
+   ruled sections and the strip grid all start on the same line — previously
+   the heading was inset and the grid was flush, which read as a break. */
+.sheet article {
+  display: block;
+  padding: 0 var(--s-5) var(--s-8);
+}
+
+.sheet article > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  padding: var(--s-6) 0 var(--s-4);
+}
+
+.sheet article > header > h1 {
+  margin: 0;
+}
+
+/* The accession line beside the page title. It is a label, not a heading:
+   as an <h2> it put zero-information words ("category", "TMDB") into the
+   heading outline. */
+.sheet article > header > .header--label {
+  margin: 0;
+  max-width: none;
+}
+
+/* The header's own actions sit at the far end of its line. */
+.sheet article > header > .btn {
+  margin-left: auto;
+}
+
+.sheet section {
+  padding: var(--s-5) 0;
+  border-top: var(--hair) solid var(--rule);
+}
+
+.sheet section > h3 {
+  margin: 0 0 var(--s-3);
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+@media (min-width: 48rem) {
+  .sheet article {
+    padding-inline: var(--s-6);
   }
 
-  &-wrapper {
-    &:before {
-      transform: rotate(45deg);
-      border-right: 1px solid var(--palette-action-active);
-      border-bottom: 1px solid var(--palette-action-active);
-      pointer-events: none;
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 10px;
-      right: 19px;
-      width: 11px;
-      height: 11px;
-      z-index: 1090;
-    }
+  .sheet article > header {
+    padding: var(--s-7) 0 var(--s-5);
   }
+}
+
+/* ───────────────────────── injected brand marks ─────────────────────────
+   fast-svg injects these inline and each carries its own fill rule in an
+   internal <style>, so they arrive with colour the palette law does not
+   allow and, in TMDB's case, with a near-black fill that disappears on the
+   dark ground. Both are driven from currentColor instead.
+   ────────────────────────────────────────────────────────────────────────── */
+
+#movies-logo .st0 {
+  fill: currentColor;
+}
+
+#tmdb-logo .cls-1 {
+  fill: currentColor;
 }

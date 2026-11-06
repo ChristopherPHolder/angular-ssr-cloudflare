@@ -1,55 +1,53 @@
-@use '../../token/mixins/media';
-@use '../../token/mixins/flex';
-
 :host {
   display: contents;
 }
+
+/* Narrow: the index slides over the sheet. */
 .side-drawer {
-  contain: strict;
-  content-visibility: auto;
   position: fixed;
-  @include flex.d-flex;
+  top: var(--strip);
+  bottom: 0;
+  left: 0;
+  z-index: var(--ply-drawer);
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 250px;
-  max-width: 70%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  z-index: var(--theme-drawer-zIndex);
-  padding: 32px 16px 16px;
+  width: var(--rail);
+  max-width: 82%;
   overflow-y: auto;
-  box-sizing: border-box;
-  transition: transform var(--theme-anim-duration-short)
-    var(--theme-anim-easing-easeOut);
-  box-shadow: var(--theme-shadow-16);
-  background-color: var(--palette-background-paper);
+  background: var(--ply-1);
+  border-right: var(--hair) solid var(--rule-strong);
   transform: translateX(-100%);
-
-  & + footer {
-    transition: transform var(--theme-anim-duration-short)
-      var(--theme-anim-easing-easeOut);
-    transform: translateX(-100%);
-  }
-
-  @include media.isDesktop {
-    box-shadow: unset;
-    background-color: transparent;
-  }
+  /* Translating it offscreen alone left ~20 index links focusable and in the
+     accessibility tree while the drawer read as closed. */
+  visibility: hidden;
+  transition: transform var(--step) var(--step-fn),
+    visibility var(--step) var(--step-fn);
 }
 
-@media screen and (min-width: 1298px) {
-  .side-drawer {
-    transform: translateX(0);
-  }
-  ui-backdrop {
-    display: none;
-  }
-}
 .side-drawer.opened {
   transform: translateX(0);
+  visibility: visible;
+}
 
-  & + footer {
-    transform: translateX(0);
+/* Wide: it is simply the left column of the sheet. Same markup, same
+   component, no JavaScript involved in the switch. */
+@media (min-width: 64rem) {
+  .side-drawer {
+    grid-area: rail;
+    position: sticky;
+    top: var(--strip);
+    bottom: auto;
+    height: calc(100dvh - var(--strip));
+    width: auto;
+    max-width: none;
+    transform: none;
+    visibility: visible;
+    background: var(--ply-0);
+    border-right-color: var(--rule);
+  }
+
+  ui-backdrop {
+    display: none;
   }
 }

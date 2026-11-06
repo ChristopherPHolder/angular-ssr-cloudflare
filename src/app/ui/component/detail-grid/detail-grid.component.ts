@@ -6,10 +6,10 @@ import {
 @Component({
   selector: 'ui-detail-grid',
   template: `
-    <div class="grid--item gradient">
+    <div class="grid--item grid--plate">
       <ng-content select="[detailGridMedia]"></ng-content>
     </div>
-    <div class="grid--item media">
+    <div class="grid--item grid--description">
       <ng-content select="[detailGridDescription]"></ng-content>
     </div>
   `,

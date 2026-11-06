@@ -11,39 +11,48 @@
           priority="high"
           [width]="movie.imgWidth"
           [height]="movie.imgHeight"
-          alt="poster movie"
+          [alt]="'Poster for ' + movie.title"
           [title]="movie.title"
           data-uf="hero-img"
           />
+
+        <!-- The accession block: what the archive records about this frame.
+             It lives under the plate, which is where a card carries it, and
+             it is what the column used to leave empty. -->
+        <dl class="facts">
+          <div class="facts--row">
+            <dt class="code">Rating</dt>
+            <dd><ui-rating [rating]="movie.vote_average" /></dd>
+          </div>
+          <div class="facts--row">
+            <dt class="code">Record</dt>
+            <dd class="figure">{{ movie.languages_runtime_release }}</dd>
+          </div>
+          @if (movie.genres?.length) {
+            <div class="facts--row facts--row-wide">
+              <dt class="code">Genres</dt>
+              <dd>
+                <div class="movie-detail--genres">
+                  @for (genre of movie.genres; track genre.name) {
+                    <a
+                      class="movie-detail--genres-link"
+                      [routerLink]="['/list/genre/', genre.id]"
+                    >
+                      <fast-svg name="genre" size="12" />
+                      {{ genre.name }}
+                    </a>
+                  }
+                </div>
+              </dd>
+            </div>
+          }
+        </dl>
       </div>
       <div detailGridDescription>
         <header>
           <h1 data-uf="header-main">{{ movie.title }}</h1>
-          <h2 data-uf="header-sub">{{ movie.tagline }}</h2>
+          <p class="header--label code" data-uf="header-sub">{{ movie.tagline }}</p>
         </header>
-        <section class="movie-detail--basic-infos">
-          <ui-star-rating
-            [rating]="movie.vote_average"
-            [showRating]="true"
-          ></ui-star-rating>
-          <div class="movie-detail--languages-runtime-release">
-            <strong>{{ movie.languages_runtime_release }}</strong>
-          </div>
-        </section>
-        <section>
-          <h3>The Genres</h3>
-          <div class="movie-detail--genres">
-            @for (genre of movie.genres; track genre.name) {
-              <a
-                class="movie-detail--genres-link"
-                [routerLink]="['/list/genre/', genre.id]"
-                >
-                <fast-svg name="genre" style="margin-right: 0.5rem"></fast-svg>
-                {{ genre.name }}
-              </a>
-            }
-          </div>
-        </section>
         <section>
           <h3>The Synopsis</h3>
           <p>{{ movie.overview || 'There is no synopsis available...' }}</p>
@@ -53,12 +62,11 @@
           <div class="movie-detail--cast-list">
             <button
               aria-label="Scroll cast left"
-              (mousedown)="move(70)"
+              (click)="move(70)"
               type="button"
-              role="button"
-              class="cast-list--btn"
-              >
-              «
+              class="cast-list--btn cast-list--btn-prev"
+            >
+              <fast-svg name="back" size="14" />
             </button>
             <div
               #castListWrapper
@@ -67,7 +75,6 @@
               @for (c of castList().value; track c.cast_id; let idx = $index) {
                 <a
                   [routerLink]="['/detail/person/', c.id]"
-                  (click)="$event.preventDefault()"
                   [attr.data-uf]="'cast-' + idx"
                   class="movie-detail--cast-actor"
                   [attr.aria-label]="c.name"
@@ -91,12 +98,11 @@
             </div>
             <button
               aria-label="Scroll cast right"
-              (mousedown)="move(-70)"
+              (click)="move(-70)"
               type="button"
-              role="button"
-              class="cast-list--btn"
-              >
-              »
+              class="cast-list--btn cast-list--btn-next"
+            >
+              <fast-svg name="back" size="14" />
             </button>
           </div>
         </section>
@@ -185,8 +191,7 @@
 </article>
   <article class="recommendations">
     <header>
-      <h1>Recommended</h1>
-      <h2>Movies</h2>
+      <h1>Recommended movies</h1>
     </header>
     @defer (on immediate; hydrate on idle) {
       <ui-movie-list

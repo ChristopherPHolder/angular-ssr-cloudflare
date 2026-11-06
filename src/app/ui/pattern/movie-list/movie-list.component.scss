@@ -1,26 +1,221 @@
-@use '../../token/mixins/flex';
-@use '../../component/aspect-ratio/aspect-ratio';
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+}
 
-.movies-list {
-  contain: content;
-  &--details {
-    @include flex.d-flex-v;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    @media only screen and (max-width: 500px) {
-      padding: 1.5rem;
-    }
+.frame:hover {
+  background: var(--ply-1);
+  text-decoration: none;
+}
 
-    &-title {
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
+/* The mark alone cannot carry focus: it is drawn over arbitrary poster
+   artwork, where #ff4a14 measures as little as 1.2:1. Focus therefore also
+   gets a two-tone ring — a dark band at the frame edge and a light band
+   just inside it — so one of the two always contrasts with whatever the
+   poster happens to be. No shadow is used; the ply law still holds. */
+.frame:focus-visible {
+  outline: none;
+  background: var(--ply-1);
+}
+
+.frame:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Local ordering inside the frame: the ring sits over the poster, and the
+     mark over the ring. Neither enters the --ply-* ladder, which ranks
+     whole surfaces against each other. */
+  z-index: 1;
+  pointer-events: none;
+  border: 2px solid var(--ply-0);
+  outline: 2px solid var(--ink);
+  outline-offset: -4px;
+}
+
+.frame--plate {
+  position: relative;
+  display: block;
+}
+
+.frame--poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  /* The ground a frame shows before its poster arrives, and therefore the
+     ground the contract's "recognisable with every poster removed" test is
+     run against. It sits on ply-1 so the frame rules clear it. */
+  background: var(--ply-1);
+}
+
+/* ─── the signature move: the grease-pencil mark ───
+   An editor circles the keeper on the contact sheet. The hovered or focused
+   frame gets the same stroke — one mark doing both jobs. It is the only
+   authored motion in the app, and the only use of the chromatic hue in the
+   field. */
+.frame--mark {
+  position: absolute;
+  /* Negative inset: the stroke crosses the frame's edge onto the sheet, which
+     is what makes it a mark drawn over the contact sheet rather than an
+     inset ring, i.e. the UI border the contract exists to refuse. */
+  inset: -5%;
+  z-index: 2; /* local: over the focus ring, see above */
+  color: var(--mark);
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.frame--mark use {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+}
+
+/* The halo pass sits under the chinagraph and carries the ground's own
+   value, so the stroke stays readable over a pale poster as well as a dark
+   one without introducing a second hue. */
+.frame--mark .mark-halo {
+  stroke: var(--ply-0);
+  stroke-width: 7;
+  opacity: 0.55;
+}
+
+.frame:hover .frame--mark,
+.frame:focus-visible .frame--mark {
+  opacity: 1;
+}
+
+.frame:hover .frame--mark use,
+.frame:focus-visible .frame--mark use {
+  animation: mark-draw 420ms linear forwards;
+}
+
+/* The frame has to establish a stacking context for the mark's overhang to
+   sit above its neighbours rather than under the next frame's poster.
+
+   `content-visibility: auto` also applies paint containment, which clips the
+   overhang at the frame's own box — so the frame being interacted with drops
+   the containment. It is on screen by definition at that moment, so the
+   off-screen saving the property exists for is not given up. */
+.frame:hover,
+.frame:focus-visible {
+  z-index: var(--ply-raise);
+  content-visibility: visible;
+}
+
+@keyframes mark-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-.ui-grid-list-item {
-  content-visibility: auto;
-  contain-intrinsic-size: 450px;
+@media (prefers-reduced-motion: reduce) {
+  .frame--mark use {
+    stroke-dashoffset: 0;
+  }
+  .frame:hover .frame--mark use,
+  .frame:focus-visible .frame--mark use {
+    animation: none;
+  }
+}
+
+/* ─── the gutter: what is written beside the frame on the sheet ─── */
+
+.frame--gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-3) var(--s-3) var(--s-4);
+}
+
+.frame--code {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin: 0;
+  max-width: none;
+}
+
+/* One line, always. Wrapped to two it pushed the title and the rating bar
+   down by a line, and the row lost the baseline the strip is ruled on. The
+   accession number gives way first; the year is short and always shows. */
+.frame--code > span {
+  white-space: nowrap;
+}
+
+.frame--code > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.frame:hover .frame--code,
+.frame:focus-visible .frame--code {
+  color: var(--mark);
+}
+
+.frame--title {
+  margin: 0;
+  font-size: var(--t-frame);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  /* Always two lines of space, so a one-line title and a two-line title put
+     their rating bar on the same baseline and the row keeps its rhythm. */
+  min-height: 2.6em;
+  /* Two lines, then clip: the strip's rhythm survives a long title. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ─── empty state ─── */
+
+/* A designed empty state: a frame's worth of ruled sheet with the reason
+   written on it, not one line floating in a void. */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  max-width: none;
+  padding: var(--s-8) 0;
+  border-top: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  color: var(--ink-dim);
+}
+
+.empty--label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.empty--text {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--t-lead);
+  color: var(--ink);
+}
+
+.empty--icon {
+  color: var(--ink-faint);
 }
