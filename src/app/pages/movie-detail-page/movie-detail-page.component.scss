@@ -35,6 +35,13 @@
   gap: var(--s-2);
 }
 
+/* The card's own bottom rule closes the block, so the last row does not add
+   a second one 24px above it. */
+.facts--row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 .facts dt {
   margin: 0;
 }
@@ -82,19 +89,23 @@
 
 /* ─── cast: a filmstrip, scrolled by the sheet's own rules ─── */
 
+/* One framed strip containing two control cells — previously the buttons
+   were separate bordered boxes flanking it, which read as two empty frames
+   either side of the cast. */
 .movie-detail--cast-list {
   display: flex;
   align-items: stretch;
-  gap: var(--s-2);
+  gap: 0;
+  border: var(--hair) solid var(--rule);
 }
 
 .cast-list {
   display: flex;
   gap: 0;
   flex: 1 1 auto;
+  min-width: 0;
   overflow-x: auto;
   scroll-snap-type: x proximity;
-  border: var(--hair) solid var(--rule);
 }
 
 .movie-detail--cast-actor {
@@ -115,17 +126,28 @@
 
 .cast-list--btn {
   flex: 0 0 auto;
-  width: 28px;
-  border: var(--hair) solid var(--rule);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  border: none;
   background: none;
   color: var(--ink-faint);
   cursor: pointer;
-  font-family: var(--font-code);
+  transition: color var(--step) var(--step-fn),
+    background-color var(--step) var(--step-fn);
+}
+
+.cast-list--btn-prev {
+  border-right: var(--hair) solid var(--rule);
+}
+
+.cast-list--btn-next {
+  border-left: var(--hair) solid var(--rule);
 }
 
 .cast-list--btn:hover {
   color: var(--mark);
-  border-color: var(--rule-strong);
+  background: var(--ply-1);
 }
 
 /* One drawn glyph serves both directions; the forward control turns it.
@@ -190,7 +212,8 @@
 
 .recommendations {
   display: block;
-  border-top: var(--hair) solid var(--rule);
+  /* No border-top: the card above closes itself, and the two rules landed on
+     the same pixel row and read as one 2px rule heavier than every other. */
 }
 
 .recommendations > header {

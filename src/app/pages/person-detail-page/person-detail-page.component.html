@@ -14,11 +14,31 @@
           [title]="person?.name"
           data-uf="hero-img"
         />
+
+        <!-- The same accession block the movie card carries, from the record
+             the archive actually holds on a person. -->
+        <dl class="facts">
+          <div class="facts--row">
+            <dt class="code">Born</dt>
+            <dd class="figure">{{ person.birthday || 'Unrecorded' }}</dd>
+          </div>
+          @if (person.deathday) {
+            <div class="facts--row">
+              <dt class="code">Died</dt>
+              <dd class="figure">{{ person.deathday }}</dd>
+            </div>
+          }
+          @if (person.place_of_birth) {
+            <div class="facts--row">
+              <dt class="code">From</dt>
+              <dd>{{ person.place_of_birth }}</dd>
+            </div>
+          }
+        </dl>
       </div>
       <div detailGridDescription>
         <header>
           <h1>{{ person.name }}</h1>
-          <p class="header--label code">{{ person.birthday }}</p>
         </header>
         <section>
           <h3>The Biography</h3>
