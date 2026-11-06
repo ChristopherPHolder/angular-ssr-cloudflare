@@ -150,6 +150,19 @@
   max-width: none;
 }
 
+/* One line, always. Wrapped to two it pushed the title and the rating bar
+   down by a line, and the row lost the baseline the strip is ruled on. The
+   accession number gives way first; the year is short and always shows. */
+.frame--code > span {
+  white-space: nowrap;
+}
+
+.frame--code > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .frame:hover .frame--code,
 .frame:focus-visible .frame--code {
   color: var(--mark);

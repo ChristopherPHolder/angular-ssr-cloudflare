@@ -20,11 +20,15 @@
   border-bottom: var(--hair) solid var(--rule);
 }
 
+/* The plate block's own layout between phone and card widths lives in the
+   page stylesheets: ng-content keeps projected markup under the parent
+   component's encapsulation, so a selector written here cannot reach it. */
+
 .grid--description {
   padding: var(--s-5) 0;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 56rem) {
   :host {
     /* The plate is held to a readable size; the card gets the rest. */
     grid-template-columns: minmax(14rem, 22rem) 1fr;

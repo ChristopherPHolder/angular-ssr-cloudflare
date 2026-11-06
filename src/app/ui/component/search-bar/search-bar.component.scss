@@ -69,6 +69,7 @@
 
   .input {
     flex: 0 1 auto;
-    width: clamp(7rem, 18vw, 15rem);
+    /* 18vw left "Search the archive" clipped at 768; this fits it. */
+    width: clamp(10rem, 26vw, 15rem);
   }
 }

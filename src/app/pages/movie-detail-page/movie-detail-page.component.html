@@ -15,32 +15,44 @@
           [title]="movie.title"
           data-uf="hero-img"
           />
+
+        <!-- The accession block: what the archive records about this frame.
+             It lives under the plate, which is where a card carries it, and
+             it is what the column used to leave empty. -->
+        <dl class="facts">
+          <div class="facts--row">
+            <dt class="code">Rating</dt>
+            <dd><ui-rating [rating]="movie.vote_average" /></dd>
+          </div>
+          <div class="facts--row">
+            <dt class="code">Record</dt>
+            <dd class="figure">{{ movie.languages_runtime_release }}</dd>
+          </div>
+          @if (movie.genres?.length) {
+            <div class="facts--row facts--row-wide">
+              <dt class="code">Genres</dt>
+              <dd>
+                <div class="movie-detail--genres">
+                  @for (genre of movie.genres; track genre.name) {
+                    <a
+                      class="movie-detail--genres-link"
+                      [routerLink]="['/list/genre/', genre.id]"
+                    >
+                      <fast-svg name="genre" size="12" />
+                      {{ genre.name }}
+                    </a>
+                  }
+                </div>
+              </dd>
+            </div>
+          }
+        </dl>
       </div>
       <div detailGridDescription>
         <header>
           <h1 data-uf="header-main">{{ movie.title }}</h1>
           <p class="header--label code" data-uf="header-sub">{{ movie.tagline }}</p>
         </header>
-        <section class="movie-detail--basic-infos">
-          <ui-rating [rating]="movie.vote_average" />
-          <div class="movie-detail--languages-runtime-release">
-            <strong>{{ movie.languages_runtime_release }}</strong>
-          </div>
-        </section>
-        <section>
-          <h3>The Genres</h3>
-          <div class="movie-detail--genres">
-            @for (genre of movie.genres; track genre.name) {
-              <a
-                class="movie-detail--genres-link"
-                [routerLink]="['/list/genre/', genre.id]"
-                >
-                <fast-svg name="genre" size="12" />
-                {{ genre.name }}
-              </a>
-            }
-          </div>
-        </section>
         <section>
           <h3>The Synopsis</h3>
           <p>{{ movie.overview || 'There is no synopsis available...' }}</p>

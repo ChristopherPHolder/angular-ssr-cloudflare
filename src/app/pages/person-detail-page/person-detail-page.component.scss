@@ -30,3 +30,15 @@
 .sort .select-wrapper {
   width: clamp(12rem, 22vw, 18rem);
 }
+
+/* Between a phone and the two-column card the plate would otherwise run the
+   full width and become a billboard with its record pushed off the fold. In
+   that band the plate and its record sit side by side. */
+@media (min-width: 30rem) and (max-width: 55.999rem) {
+  [detailGridMedia] {
+    display: grid;
+    grid-template-columns: minmax(0, 17rem) 1fr;
+    align-items: start;
+    gap: var(--s-5);
+  }
+}

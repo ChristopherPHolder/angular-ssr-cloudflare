@@ -2,33 +2,54 @@
   display: block;
 }
 
-/* The tagline under the title is the card's second line, set like every
-   other accession label on the sheet. */
-.movie-detail--basic-infos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s-3) var(--s-5);
-  border-top: none;
-  padding-top: var(--s-3);
+/* The accession block under the plate: label left, value right, one ruled
+   row each, the way the card itself is written. */
+.facts {
+  margin: var(--s-5) 0 0;
+  border-top: var(--hair) solid var(--rule);
 }
 
-.movie-detail--basic-infos ui-rating {
-  flex: 0 0 auto;
-  width: 9rem;
+/* Beside the plate rather than under it, the record needs no gap above. */
+@media (min-width: 30rem) and (max-width: 55.999rem) {
+  .facts {
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .facts--row:first-child {
+    padding-top: 0;
+  }
 }
 
-.movie-detail--languages-runtime-release {
-  font-family: var(--font-code);
-  font-variant-numeric: tabular-nums;
-  font-size: var(--t-code);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.facts--row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.facts--row-wide {
+  grid-template-columns: 1fr;
+  gap: var(--s-2);
+}
+
+.facts dt {
+  margin: 0;
+}
+
+.facts dd {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--t-fine);
   color: var(--ink-dim);
 }
 
-.movie-detail--languages-runtime-release strong {
-  font-weight: 400;
+.facts .figure {
+  font-size: var(--t-code);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .movie-detail--genres {
@@ -174,4 +195,16 @@
 
 .recommendations > header {
   padding-top: var(--s-6);
+}
+
+/* Between a phone and the two-column card the plate would otherwise run the
+   full width and become a billboard with its record pushed off the fold. In
+   that band the plate and its record sit side by side. */
+@media (min-width: 30rem) and (max-width: 55.999rem) {
+  [detailGridMedia] {
+    display: grid;
+    grid-template-columns: minmax(0, 17rem) 1fr;
+    align-items: start;
+    gap: var(--s-5);
+  }
 }
