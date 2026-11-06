@@ -10,6 +10,12 @@ import { config } from './app/app.config.server';
  * `allowedHosts` has to list every hostname the Worker answers for — Angular's
  * SSR host guard rejects any request whose `host` header isn't listed with
  * NG05706.
+ *
+ * The wildcard covers the Previews that CI deploys per pull request, which are
+ * served from their own hostnames: `pr-<n>-angular-ssr-cloudflare.…` for the
+ * Preview URL, `<deployment-id>-angular-ssr-cloudflare.…` for one deployment.
+ * Angular matches a `*.` entry by suffix, so this is scoped to the account's
+ * own subdomain rather than to `workers.dev` at large.
  */
 export default function render(url: string, document: string): Promise<string> {
   return renderApplication(
@@ -20,6 +26,7 @@ export default function render(url: string, document: string): Promise<string> {
       allowedHosts: [
         'localhost',
         'angular-ssr-cloudflare.toholderandrews-4c2.workers.dev',
+        '*.toholderandrews-4c2.workers.dev',
       ],
     },
   );
