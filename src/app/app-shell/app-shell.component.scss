@@ -168,9 +168,14 @@
   color: var(--ink-faint);
 }
 
-.index--source :where(svg) {
-  fill: currentColor;
-  opacity: 0.85;
+/* TMDB attribution is a brand commitment: it stays legible in both
+   themes rather than being dimmed into the rule colour. */
+.index--source a {
+  color: var(--ink-dim);
+}
+
+.index--source a:hover {
+  color: var(--ink);
 }
 
 /* ──────────────────────────────── account ──────────────────────────────── */

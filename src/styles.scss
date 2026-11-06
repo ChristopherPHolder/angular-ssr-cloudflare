@@ -373,3 +373,18 @@ a:hover {
     padding: var(--s-5) var(--s-6);
   }
 }
+
+/* ───────────────────────── injected brand marks ─────────────────────────
+   fast-svg injects these inline and each carries its own fill rule in an
+   internal <style>, so they arrive with colour the palette law does not
+   allow and, in TMDB's case, with a near-black fill that disappears on the
+   dark ground. Both are driven from currentColor instead.
+   ────────────────────────────────────────────────────────────────────────── */
+
+#movies-logo .st0 {
+  fill: currentColor;
+}
+
+#tmdb-logo .cls-1 {
+  fill: currentColor;
+}

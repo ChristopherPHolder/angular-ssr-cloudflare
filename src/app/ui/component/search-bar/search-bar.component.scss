@@ -1,14 +1,19 @@
 :host {
   display: flex;
   align-items: center;
+  /* On the strip's wrapped second row the field owns the width it has. */
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* A hairline underline, not a field. It is the same rule the sheet is ruled
    with, so the control belongs to the strip rather than sitting on it. */
 .form {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   gap: var(--s-2);
+  min-width: 0;
   padding: 4px 0;
   border-bottom: var(--hair) solid var(--rule-strong);
   transition: border-color var(--step) var(--step-fn);
@@ -37,7 +42,9 @@
 }
 
 .input {
-  width: clamp(7rem, 18vw, 15rem);
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
   padding: 0;
   border: none;
   background: none;
@@ -51,4 +58,17 @@
 
 .input::placeholder {
   color: var(--ink-faint);
+}
+
+/* Once the strip is a single row again, the field takes a measured width
+   instead of pushing the tools off the end. */
+@media (min-width: 48rem) {
+  :host {
+    flex: 0 1 auto;
+  }
+
+  .input {
+    flex: 0 1 auto;
+    width: clamp(7rem, 18vw, 15rem);
+  }
 }
