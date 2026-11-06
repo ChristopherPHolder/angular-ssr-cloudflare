@@ -99,10 +99,16 @@
 }
 
 /* The frame has to establish a stacking context for the mark's overhang to
-   sit above its neighbours rather than under the next frame's poster. */
+   sit above its neighbours rather than under the next frame's poster.
+
+   `content-visibility: auto` also applies paint containment, which clips the
+   overhang at the frame's own box — so the frame being interacted with drops
+   the containment. It is on screen by definition at that moment, so the
+   off-screen saving the property exists for is not given up. */
 .frame:hover,
 .frame:focus-visible {
   z-index: 1;
+  content-visibility: visible;
 }
 
 @keyframes mark-draw {

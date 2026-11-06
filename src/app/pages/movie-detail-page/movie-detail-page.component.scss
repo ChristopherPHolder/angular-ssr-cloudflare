@@ -107,6 +107,11 @@
   border-color: var(--rule-strong);
 }
 
+/* One drawn glyph serves both directions; the forward control turns it. */
+.cast-list--btn-next :where(svg) {
+  transform: rotate(180deg);
+}
+
 .movie-detail--ad-section-links {
   display: flex;
   flex-wrap: wrap;
