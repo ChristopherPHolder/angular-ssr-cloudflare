@@ -16,10 +16,25 @@
   text-decoration: none;
 }
 
-/* The mark is the focus indicator, so the global ring would be a second one. */
+/* The mark alone cannot carry focus: it is drawn over arbitrary poster
+   artwork, where #ff4a14 measures as little as 1.2:1. Focus therefore also
+   gets a two-tone ring — a dark band at the frame edge and a light band
+   just inside it — so one of the two always contrasts with whatever the
+   poster happens to be. No shadow is used; the ply law still holds. */
 .frame:focus-visible {
   outline: none;
   background: var(--ply-1);
+}
+
+.frame:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border: 2px solid var(--ply-0);
+  outline: 2px solid var(--ink);
+  outline-offset: -4px;
 }
 
 .frame--plate {
@@ -43,9 +58,11 @@
    field. */
 .frame--mark {
   position: absolute;
-  inset: 3%;
-  width: 94%;
-  height: 94%;
+  /* Negative inset: the stroke crosses the frame's edge onto the sheet, which
+     is what makes it a mark drawn over the contact sheet rather than an
+     inset ring, i.e. the UI border the contract exists to refuse. */
+  inset: -5%;
+  z-index: 2;
   color: var(--mark);
   opacity: 0;
   pointer-events: none;
@@ -62,6 +79,15 @@
   stroke-dashoffset: 900;
 }
 
+/* The halo pass sits under the chinagraph and carries the ground's own
+   value, so the stroke stays readable over a pale poster as well as a dark
+   one without introducing a second hue. */
+.frame--mark .mark-halo {
+  stroke: var(--ply-0);
+  stroke-width: 7;
+  opacity: 0.55;
+}
+
 .frame:hover .frame--mark,
 .frame:focus-visible .frame--mark {
   opacity: 1;
@@ -70,6 +96,13 @@
 .frame:hover .frame--mark use,
 .frame:focus-visible .frame--mark use {
   animation: mark-draw 420ms linear forwards;
+}
+
+/* The frame has to establish a stacking context for the mark's overhang to
+   sit above its neighbours rather than under the next frame's poster. */
+.frame:hover,
+.frame:focus-visible {
+  z-index: 1;
 }
 
 @keyframes mark-draw {

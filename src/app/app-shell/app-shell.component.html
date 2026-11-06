@@ -1,12 +1,13 @@
 <header class="strip">
-  <ui-hamburger-button
+  <button
+    uiHamburgerButton
     data-uf="menu-btn"
     class="strip--drawer-toggle"
-    aria-label="Open the index"
+    aria-label="Catalogue index"
     [attr.aria-expanded]="sideDrawerOpen()"
     aria-controls="index"
     (click)="sideDrawerOpen.set(!sideDrawerOpen())"
-  />
+  ></button>
 
   <a class="strip--mark" aria-label="Main page" href="/">
     <fast-svg name="movies-logo" width="104" height="22" />
@@ -21,19 +22,22 @@
   <div class="strip--tools">
     <ui-dark-mode-toggle />
 
-    <div class="account">
+    <div class="account" [class.open]="accountMenuOpen()">
       <button
         data-uf="profile-menu-button"
         type="button"
-        aria-label="Toggle profile menu"
+        aria-label="Profile menu"
+        [attr.aria-expanded]="accountMenuOpen()"
+        aria-controls="account-menu"
         name="profile"
         class="account--button"
         (mouseenter)="ui.loadAccountMenu()"
         (focus)="ui.loadAccountMenu()"
+        (click)="toggleAccountMenu()"
       >
         <fast-svg name="account" size="18" />
       </button>
-      <div class="account--menu" data-uf="profile-menu-content">
+      <div id="account-menu" class="account--menu" data-uf="profile-menu-content">
         @if (accountMenuComponent(); as accountMenuComponent) {
           <ng-container [lazy]="accountMenuComponent" />
         } @else {

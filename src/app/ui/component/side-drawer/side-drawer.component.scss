@@ -18,11 +18,16 @@
   background: var(--ply-1);
   border-right: var(--hair) solid var(--rule-strong);
   transform: translateX(-100%);
-  transition: transform var(--step) var(--step-fn);
+  /* Translating it offscreen alone left ~20 index links focusable and in the
+     accessibility tree while the drawer read as closed. */
+  visibility: hidden;
+  transition: transform var(--step) var(--step-fn),
+    visibility var(--step) var(--step-fn);
 }
 
 .side-drawer.opened {
   transform: translateX(0);
+  visibility: visible;
 }
 
 /* Wide: it is simply the left column of the sheet. Same markup, same
@@ -37,6 +42,7 @@
     width: auto;
     max-width: none;
     transform: none;
+    visibility: visible;
     background: var(--ply-0);
     border-right-color: var(--rule);
   }

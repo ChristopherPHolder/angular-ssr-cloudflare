@@ -21,15 +21,23 @@
   --ply-1: light-dark(#ffffff, #15181a);
   --ply-2: light-dark(#f7f9fa, #1d2124);
 
-  /* Rules — the frame lines of the sheet. Hairline is always exactly 1px. */
-  --rule: light-dark(#d3d9dc, #272c30);
-  --rule-strong: light-dark(#aab2b7, #3b4247);
+  /* Rules — the frame lines of the sheet. Hairline is always exactly 1px.
+
+     These carry the THESIS: with every poster removed the field still has
+     to read as a ruled grid of frames. The first pass set them at 1.39:1,
+     which is below the perceptual floor — the grid was declared here and
+     withheld at the render. Measured: rule 2.3-2.8:1 against every ply,
+     rule-strong 3.3-4.2:1 so control borders clear non-text contrast. */
+  --rule: light-dark(#919da4, #454e55);
+  --rule-strong: light-dark(#717e88, #68727a);
   --hair: 1px;
 
-  /* Ink. Every value below is >= 4.5:1 on ply-0 and ply-1 in both themes. */
+  /* Ink. Every value below measures >= 4.5:1 on ply-0, ply-1 AND ply-2 in
+     both themes — ink-faint carries .code, .tab, the search placeholder and
+     the section labels, so it is body text and gets the body-text bar. */
   --ink: light-dark(#14181a, #f2f4f5);
   --ink-dim: light-dark(#4d5559, #9ba2a7);
-  --ink-faint: light-dark(#636a6f, #767e83);
+  --ink-faint: light-dark(#5e6569, #8b9398);
 
   /* The grease pencil. The only chromatic hue in the system. */
   --mark: light-dark(#b82d00, #ff4a14);

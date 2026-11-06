@@ -66,6 +66,7 @@ import { Movie } from '../../../state/movie.state';
                 [title]="movie.title"
               />
               <svg class="frame--mark" viewBox="0 0 200 300" aria-hidden="true">
+                <use class="mark-halo" href="#chinagraph" />
                 <use href="#chinagraph" />
               </svg>
             </span>

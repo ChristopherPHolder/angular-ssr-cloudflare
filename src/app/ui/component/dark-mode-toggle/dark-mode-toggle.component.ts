@@ -1,15 +1,26 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal, ViewEncapsulation } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  PLATFORM_ID,
+  inject,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 
 type Scheme = 'light' | 'dark';
 
+const STORAGE_KEY = 'colour-scheme';
+
 /**
- * The colour scheme follows the operating system until the visitor overrides
- * it, and the override is a single `color-scheme` on the root element — every
- * token is declared once with `light-dark()` and resolves from there.
+ * The scheme follows the operating system until the visitor overrides it, and
+ * the override is a single `color-scheme` on the root element — every token is
+ * declared once with `light-dark()` and resolves from there.
  *
- * Nothing here reads a media query. Which option looks active is decided in
- * CSS, so the control is correct in auto mode without any state to track.
+ * Which option *looks* active is still decided in CSS. The resolved scheme is
+ * additionally mirrored into `aria-pressed` so the state is programmatically
+ * determinable and not communicated by colour alone; reading
+ * `prefers-color-scheme` is a scheme query, not a viewport query, and nothing
+ * here measures the viewport.
  */
 @Component({
   selector: 'ui-dark-mode-toggle',
@@ -19,7 +30,7 @@ type Scheme = 'light' | 'dark';
         type="button"
         class="opt opt--light"
         aria-label="Use the light theme"
-        [attr.aria-pressed]="chosen() === 'light'"
+        [attr.aria-pressed]="resolved() === 'light'"
         (click)="choose('light')"
       >
         Light
@@ -29,7 +40,7 @@ type Scheme = 'light' | 'dark';
         type="button"
         class="opt opt--dark"
         aria-label="Use the dark theme"
-        [attr.aria-pressed]="chosen() === 'dark'"
+        [attr.aria-pressed]="resolved() === 'dark'"
         (click)="choose('dark')"
       >
         Dark
@@ -41,12 +52,51 @@ type Scheme = 'light' | 'dark';
 })
 export class DarkModeToggleComponent {
   private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  /** Null until the visitor overrides the system preference. */
-  readonly chosen = signal<Scheme | null>(null);
+  /** The scheme actually in force, whether chosen here or by the system. */
+  readonly resolved = signal<Scheme | null>(null);
+
+  constructor() {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    const stored = this.read();
+    if (stored) {
+      this.apply(stored);
+      return;
+    }
+
+    const query = window.matchMedia('(prefers-color-scheme: dark)');
+    this.resolved.set(query.matches ? 'dark' : 'light');
+    query.addEventListener('change', (event) => {
+      if (!this.read()) {
+        this.resolved.set(event.matches ? 'dark' : 'light');
+      }
+    });
+  }
 
   choose(scheme: Scheme): void {
-    this.chosen.set(scheme);
+    this.apply(scheme);
+    try {
+      localStorage.setItem(STORAGE_KEY, scheme);
+    } catch {
+      // Private mode or blocked storage: the choice still holds this session.
+    }
+  }
+
+  private apply(scheme: Scheme): void {
+    this.resolved.set(scheme);
     this.document.documentElement.dataset['theme'] = scheme;
+  }
+
+  private read(): Scheme | null {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return value === 'light' || value === 'dark' ? value : null;
+    } catch {
+      return null;
+    }
   }
 }

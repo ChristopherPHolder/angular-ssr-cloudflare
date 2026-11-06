@@ -202,6 +202,7 @@
 }
 
 .account:hover .account--button,
+.account.open .account--button,
 .account--button:focus-visible {
   color: var(--ink);
   border-color: var(--rule-strong);
@@ -227,7 +228,8 @@
 }
 
 .account:hover .account--menu,
-.account:focus-within .account--menu {
+.account:focus-within .account--menu,
+.account.open .account--menu {
   visibility: visible;
   pointer-events: auto;
 }

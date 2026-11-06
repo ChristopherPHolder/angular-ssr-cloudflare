@@ -11,7 +11,7 @@
           priority="high"
           [width]="movie.imgWidth"
           [height]="movie.imgHeight"
-          alt="poster movie"
+          [alt]="'Poster for ' + movie.title"
           [title]="movie.title"
           data-uf="hero-img"
           />
@@ -19,7 +19,7 @@
       <div detailGridDescription>
         <header>
           <h1 data-uf="header-main">{{ movie.title }}</h1>
-          <h2 data-uf="header-sub">{{ movie.tagline }}</h2>
+          <p class="header--label code" data-uf="header-sub">{{ movie.tagline }}</p>
         </header>
         <section class="movie-detail--basic-infos">
           <ui-rating [rating]="movie.vote_average" />
@@ -50,12 +50,11 @@
           <div class="movie-detail--cast-list">
             <button
               aria-label="Scroll cast left"
-              (mousedown)="move(70)"
+              (click)="move(70)"
               type="button"
-              role="button"
-              class="cast-list--btn"
-              >
-              «
+              class="cast-list--btn cast-list--btn-prev"
+            >
+              <fast-svg name="back" size="14" />
             </button>
             <div
               #castListWrapper
@@ -64,7 +63,6 @@
               @for (c of castList().value; track c.cast_id; let idx = $index) {
                 <a
                   [routerLink]="['/detail/person/', c.id]"
-                  (click)="$event.preventDefault()"
                   [attr.data-uf]="'cast-' + idx"
                   class="movie-detail--cast-actor"
                   [attr.aria-label]="c.name"
@@ -88,12 +86,11 @@
             </div>
             <button
               aria-label="Scroll cast right"
-              (mousedown)="move(-70)"
+              (click)="move(-70)"
               type="button"
-              role="button"
-              class="cast-list--btn"
-              >
-              »
+              class="cast-list--btn cast-list--btn-next"
+            >
+              <fast-svg name="back" size="14" />
             </button>
           </div>
         </section>
@@ -183,7 +180,7 @@
   <article class="recommendations">
     <header>
       <h1>Recommended</h1>
-      <h2>Movies</h2>
+      <p class="header--label code">Movies</p>
     </header>
     @defer (on immediate; hydrate on idle) {
       <ui-movie-list

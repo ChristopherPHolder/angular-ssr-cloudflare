@@ -10,7 +10,7 @@
           [width]="person.imgWidth"
           [height]="person.imgHeight"
           priority="high"
-          alt="poster movie"
+          [alt]="'Photograph of ' + person.name"
           [title]="person?.name"
           data-uf="hero-img"
         />
@@ -18,7 +18,7 @@
       <div detailGridDescription>
         <header>
           <h1>{{ person.name }}</h1>
-          <h2>{{ person.birthday }}</h2>
+          <p class="header--label code">{{ person.birthday }}</p>
         </header>
         <section>
           <h3>The Biography</h3>
@@ -56,7 +56,7 @@
           [width]="person.imgWidth"
           [height]="person.imgHeight"
           priority="high"
-          alt="poster movie"
+          [alt]="'Photograph of ' + person.name"
           [title]="person?.name"
           data-uf="hero-img"
         />
@@ -64,7 +64,7 @@
       <div detailGridDescription>
         <header>
           <h1>{{ person.name }}</h1>
-          <h2>{{ person.birthday }}</h2>
+          <p class="header--label code">{{ person.birthday }}</p>
         </header>
         <section>
           <h3>The Biography</h3>
@@ -96,7 +96,7 @@
   @if (personCtx()?.value; as p) {
     <header>
       <h1>{{ p.name || '...' }} in</h1>
-      <h2>Movies</h2>
+      <p class="header--label code">Movies</p>
     </header>
   }
   @if (sortingModel(); as sorting) {

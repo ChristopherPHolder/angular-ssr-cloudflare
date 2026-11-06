@@ -1,7 +1,7 @@
 <article>
   <header>
     <h1 data-uf="header-main">{{ headings().main }}</h1>
-    <h2 data-uf="header-sub">{{ headings().sub }}</h2>
+    <p class="header--label code" data-uf="header-sub">{{ headings().sub }}</p>
   </header>
   @defer (on immediate; hydrate on idle) {
     <ui-movie-list (paginate)="paginate()" [movies]="movies$">

@@ -12,14 +12,18 @@
   <ul class="results" [hidden]="!vm().showResults || !vm().searchResults.length">
     @for (movie of vm().searchResults; track trackByMovieId($index, movie)) {
       <li class="item">
-        <button class="poster" (click)="adapter.ui.addMovie(movie)">
+        <button
+          class="poster"
+          [attr.aria-label]="'Add ' + movie.title + ' to this list'"
+          (click)="adapter.ui.addMovie(movie)"
+        >
           <img
             class="result-image"
             [ngSrc]="movie.imgSrc"
             [ngSrcset]="adapter.srcset"
             [width]="movie.imgWidth"
             [height]="movie.imgHeight"
-            alt="poster movie"
+            alt=""
             [title]="movie.title"
           />
         </button>
