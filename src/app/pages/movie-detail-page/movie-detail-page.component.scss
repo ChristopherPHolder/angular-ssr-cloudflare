@@ -107,8 +107,12 @@
   border-color: var(--rule-strong);
 }
 
-/* One drawn glyph serves both directions; the forward control turns it. */
-.cast-list--btn-next :where(svg) {
+/* One drawn glyph serves both directions; the forward control turns it.
+   The turn is applied to the <fast-svg> host, not the injected <svg>: the
+   host is written in this template and carries this component's
+   encapsulation attribute, while the SVG fast-svg injects does not. */
+.cast-list--btn-next fast-svg {
+  display: block;
   transform: rotate(180deg);
 }
 
