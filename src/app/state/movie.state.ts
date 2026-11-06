@@ -1,11 +1,12 @@
 import { RxState } from '@rx-angular/state';
-import { patch, toDictionary } from '@rx-angular/cdk/transformations';
+import { toDictionary } from '@rx-angular/cdk/transformations';
 import { inject, Service } from '@angular/core';
 import { filter, map } from 'rxjs';
 import { optimizedFetch } from '../shared/cdk/optimized-fetch';
 import { AppInitializer } from '../shared/cdk/app-initializer';
 import { rxActions } from '@rx-angular/state/actions';
 import { withLoadingEmission } from '../shared/cdk/loading/withLoadingEmissions';
+import { patchWithContext } from '../shared/cdk/loading/patch-with-context';
 import {
   CategoryResponse,
   MovieResource,
@@ -70,13 +71,7 @@ export class MovieState extends RxState<MovieModel> implements AppInitializer {
           },
         ),
       ),
-      (oldState, newPartial) => {
-        const resultState = patch(oldState?.movies || { value: {}, loading: false }, newPartial);
-        if (resultState.value && oldState?.movies?.value) {
-          resultState.value = patch(oldState.movies.value, resultState.value);
-        }
-        return resultState;
-      },
+      (oldState, newPartial) => patchWithContext(oldState?.movies, newPartial),
     );
 
     this.connect(
@@ -96,11 +91,7 @@ export class MovieState extends RxState<MovieModel> implements AppInitializer {
             ),
         ),
       ),
-      (oldState, newPartial) => {
-        const resultState = patch(oldState?.categoryMovies, newPartial);
-        resultState.value = patch(oldState?.categoryMovies?.value, resultState?.value);
-        return resultState;
-      },
+      (oldState, newPartial) => patchWithContext(oldState?.categoryMovies, newPartial),
     );
   }
 
