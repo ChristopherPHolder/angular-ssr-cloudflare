@@ -1,10 +1,9 @@
 import { ApplicationConfig, mergeApplicationConfig, Service } from '@angular/core';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { provideServerRendering } from '@angular/platform-server';
 import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
 import { provideRxRenderStrategies } from '@rx-angular/cdk/render-strategies';
 import { concatMap, EMPTY, Observable, of } from 'rxjs';
 import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
 import { SVG_ICONS } from './renderer/svg-icons';
 import { RxServerRenderStrategy } from './rx-server-render-strategy';
 
@@ -40,7 +39,7 @@ export class ServerSvgLoadStrategy implements SvgLoadStrategy {
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(withRoutes(serverRoutes)),
+    provideServerRendering(),
     // Force synchronous (native) rendering during SSR so rx-angular's
     // concurrent strategies don't cause a hydration flicker. See
     // ./rx-server-render-strategy.
