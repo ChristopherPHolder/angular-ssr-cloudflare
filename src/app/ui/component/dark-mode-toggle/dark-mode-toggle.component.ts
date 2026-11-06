@@ -30,7 +30,7 @@ const STORAGE_KEY = 'colour-scheme';
         type="button"
         class="opt opt--light"
         aria-label="Use the light theme"
-        [attr.aria-pressed]="resolved() === 'light'"
+        [attr.aria-pressed]="pressed('light')"
         (click)="choose('light')"
       >
         Light
@@ -40,7 +40,7 @@ const STORAGE_KEY = 'colour-scheme';
         type="button"
         class="opt opt--dark"
         aria-label="Use the dark theme"
-        [attr.aria-pressed]="resolved() === 'dark'"
+        [attr.aria-pressed]="pressed('dark')"
         (click)="choose('dark')"
       >
         Dark
@@ -56,6 +56,17 @@ export class DarkModeToggleComponent {
 
   /** The scheme actually in force, whether chosen here or by the system. */
   readonly resolved = signal<Scheme | null>(null);
+
+  /**
+   * Null until the resolved scheme is known, which drops the attribute
+   * rather than asserting `false` on both options. On the server the scheme
+   * is genuinely unknown, and this app's whole argument is its SSR output —
+   * so the rendered document should not claim a state it has not resolved.
+   */
+  protected pressed(scheme: Scheme): boolean | null {
+    const resolved = this.resolved();
+    return resolved === null ? null : resolved === scheme;
+  }
 
   constructor() {
     if (!this.isBrowser) {

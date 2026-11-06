@@ -48,7 +48,10 @@
   height: auto;
   aspect-ratio: 2 / 3;
   object-fit: cover;
-  background: var(--ply-2);
+  /* The ground a frame shows before its poster arrives, and therefore the
+     ground the contract's "recognisable with every poster removed" test is
+     run against. It sits on ply-1 so the frame rules clear it. */
+  background: var(--ply-1);
 }
 
 /* ─── the signature move: the grease-pencil mark ───

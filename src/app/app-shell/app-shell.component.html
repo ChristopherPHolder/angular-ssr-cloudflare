@@ -3,7 +3,7 @@
     uiHamburgerButton
     data-uf="menu-btn"
     class="strip--drawer-toggle"
-    aria-label="Catalogue index"
+    aria-label="Open the index"
     [attr.aria-expanded]="sideDrawerOpen()"
     aria-controls="index"
     (click)="sideDrawerOpen.set(!sideDrawerOpen())"
@@ -49,7 +49,7 @@
 </header>
 
 <ui-side-drawer [(opened)]="sideDrawerOpen">
-  <nav id="index" class="index" aria-label="Catalogue index">
+  <nav id="index" class="index" aria-label="Open the index">
     <p class="index--label code">Discover</p>
     <a
       aria-label="Popular"
