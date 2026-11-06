@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MOVIES — Upcoming Gate Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--panel:#15171A;--face:#EDEFF2;--alert:#FFB000;--mute:#8A9196;--rule:#272B30;--pass:#1E2226}
+*{box-sizing:border-box}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+body{background:var(--panel);color:var(--face);font-family:'Archivo',system-ui,sans-serif;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Roboto Mono',monospace}
+.lab{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+
+/* 1. top strip */
+.top{height:56px;border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 24px 0 32px}
+.mark{font-size:15px;font-weight:600;letter-spacing:.22em}
+.tabs{display:flex;gap:28px;margin-left:56px}
+.tab{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding-bottom:4px;border-bottom:2px solid transparent}
+.tab.on{color:var(--face);border-bottom-color:var(--face)}
+.right{margin-left:auto;display:flex;align-items:center;gap:28px}
+.search{width:208px;border-bottom:1px solid var(--rule);padding-bottom:7px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.sw{display:flex;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em}
+.sw span{padding:0 10px;color:var(--mute)}
+.sw span+span{border-left:1px solid var(--rule)}
+.sw .on{color:var(--face)}
+
+/* 2. split */
+.main{height:843px;display:grid;grid-template-columns:968px 1px 471px}
+.div{background:var(--rule)}
+
+/* 3. board */
+.board{padding:0 24px 0 32px;overflow:hidden}
+.bhead{height:164px;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:22px}
+.bhead h1{margin:10px 0 8px;font-size:46px;font-weight:600;letter-spacing:-.022em;line-height:1}
+.bstats{height:104px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(4,1fr);align-items:center}
+.bstats div{padding-left:22px;border-left:1px solid var(--rule)}
+.bstats div:first-child{padding-left:0;border-left:0}
+.bstats b{display:block;margin-top:9px;font-family:'Roboto Mono',monospace;font-size:26px;font-weight:400;letter-spacing:-.01em}
+.bfilter{height:56px;border-top:1px solid var(--rule);display:flex;align-items:center;gap:26px}
+.bfilter .on{color:var(--face)}
+.bfilter .end{margin-left:auto}
+
+.row{display:grid;grid-template-columns:132px 1fr 96px 128px 108px;align-items:center;height:56px;border-bottom:1px solid var(--rule);position:relative}
+.thead{height:36px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);display:grid;grid-template-columns:132px 1fr 96px 128px 108px;align-items:center}
+.rel{font-family:'Roboto Mono',monospace;font-size:13px;letter-spacing:.06em}
+.tit{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:500;letter-spacing:-.005em;padding-right:24px}
+.p{width:32px;height:48px;flex:none;display:block}
+.run,.gen{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--mute);letter-spacing:.04em}
+.gen{font-family:'Archivo',sans-serif;font-size:13px;letter-spacing:0}
+.rat{font-family:'Roboto Mono',monospace;font-size:13px}
+.rat s{display:block;width:84px;height:2px;background:var(--rule);margin-top:8px;text-decoration:none}
+.rat i{display:block;height:2px;background:var(--face)}
+.row.chg::before{content:"";position:absolute;left:-16px;top:0;bottom:0;width:2px;background:var(--alert)}
+.row.chg .rel{color:var(--alert)}
+.chip{display:inline-block;margin-top:6px;padding:2px 5px;border:1px solid var(--alert);color:var(--alert);font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.1em}
+.p1{background:#2E343A}.p2{background:#3A4147}.p3{background:#454D54}.p4{background:#525B63}
+.p5{background:#333A40}.p6{background:#5B646C}.p7{background:#3F474E}.p8{background:#4B545B}.p9{background:#2E343A}
+
+/* 4. pass */
+.pass{background:var(--pass);padding:0 28px;height:843px;display:flex;flex-direction:column;overflow:hidden}
+.phead{height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule)}
+.seg{padding:24px 0;border-top:1px solid var(--rule)}
+.seg:first-of-type{border-top:0;padding:30px 0 26px}
+.seg h2{margin:12px 0 0;font-size:29px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.grid{display:grid;grid-template-columns:1fr 1fr}
+.grid>div:last-child{border-left:1px solid var(--rule);padding-left:22px}
+.val{margin-top:11px;font-family:'Roboto Mono',monospace;font-size:15px;letter-spacing:.04em}
+.val.sans{font-family:'Archivo',sans-serif;font-size:15px;letter-spacing:0}
+.note{margin-top:7px;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--mute)}
+.foot{margin-top:auto;padding-bottom:30px}
+.perf{height:10px;margin:0 -28px 26px;background-image:radial-gradient(circle,var(--rule) 1.6px,transparent 1.7px);background-size:11px 10px}
+.scan{height:62px;margin-top:12px;background-color:var(--panel);background-image:repeating-linear-gradient(90deg,var(--face) 0 2px,var(--panel) 2px 6px,var(--face) 6px 11px,var(--panel) 11px 15px,var(--face) 15px 17px,var(--panel) 17px 23px,var(--face) 23px 30px,var(--panel) 30px 34px,var(--face) 34px 36px,var(--panel) 36px 42px,var(--face) 42px 48px,var(--panel) 48px 52px,var(--face) 52px 55px,var(--panel) 55px 61px,var(--face) 61px 69px,var(--panel) 69px 73px,var(--face) 73px 75px,var(--panel) 75px 82px,var(--face) 82px 88px,var(--panel) 88px 92px,var(--face) 92px 99px,var(--panel) 99px 104px)}
+.code{margin-top:12px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--mute)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="mark">MOVIES</div>
+  <nav class="tabs"><span class="tab">Popular</span><span class="tab">Top Rated</span><span class="tab on">Upcoming</span></nav>
+  <div class="right">
+    <div class="search">Search titles</div>
+    <div class="sw"><span>Light</span><span class="on">Dark</span></div>
+  </div>
+</header>
+
+<main class="main">
+  <section class="board">
+    <div class="bhead">
+      <div class="lab">Gate board &middot; Departures</div>
+      <h1>Upcoming</h1>
+      <div class="lab">Ranked by release &middot; soonest first &middot; updated 14:22 UTC</div>
+    </div>
+    <div class="bstats">
+      <div><span class="lab">Scheduled</span><b>142</b></div>
+      <div><span class="lab">Next 30 days</span><b>018</b></div>
+      <div><span class="lab">On schedule</span><b>141</b></div>
+      <div><span class="lab">Rescheduled</span><b>001</b></div>
+    </div>
+    <div class="bfilter">
+      <span class="lab on">Sort &middot; Release</span><span class="lab">All genres</span><span class="lab">All regions</span><span class="lab">2024</span>
+      <span class="lab end">9 of 142 shown</span>
+    </div>
+
+    <div class="thead"><span class="lab">Release</span><span class="lab">Title</span><span class="lab">Runtime</span><span class="lab">Genre</span><span class="lab">Rating</span></div>
+
+    <div class="row chg"><div class="rel">08 MAR<span class="chip">DATE MOVED</span></div><div class="tit"><i class="p p1"></i>Dune: Part Two</div><div class="run">166 min</div><div class="gen">Sci-Fi</div><div class="rat">8.2<s><i style="width:82%"></i></s></div></div>
+    <div class="row"><div class="rel">12 APR</div><div class="tit"><i class="p p2"></i>Civil War</div><div class="run">109 min</div><div class="gen">Thriller</div><div class="rat">7.0<s><i style="width:70%"></i></s></div></div>
+    <div class="row"><div class="rel">26 APR</div><div class="tit"><i class="p p3"></i>Challengers</div><div class="run">131 min</div><div class="gen">Drama</div><div class="rat">7.2<s><i style="width:72%"></i></s></div></div>
+    <div class="row"><div class="rel">24 MAY</div><div class="tit"><i class="p p4"></i>Furiosa</div><div class="run">148 min</div><div class="gen">Action</div><div class="rat">7.6<s><i style="width:76%"></i></s></div></div>
+    <div class="row"><div class="rel">21 JUN</div><div class="tit"><i class="p p5"></i>Kinds of Kindness</div><div class="run">164 min</div><div class="gen">Drama</div><div class="rat">6.9<s><i style="width:69%"></i></s></div></div>
+    <div class="row"><div class="rel">20 SEP</div><div class="tit"><i class="p p6"></i>The Substance</div><div class="run">141 min</div><div class="gen">Horror</div><div class="rat">7.3<s><i style="width:73%"></i></s></div></div>
+    <div class="row"><div class="rel">18 OCT</div><div class="tit"><i class="p p7"></i>Anora</div><div class="run">139 min</div><div class="gen">Drama</div><div class="rat">7.1<s><i style="width:71%"></i></s></div></div>
+    <div class="row"><div class="rel">20 DEC</div><div class="tit"><i class="p p8"></i>The Brutalist</div><div class="run">215 min</div><div class="gen">Drama</div><div class="rat">7.4<s><i style="width:74%"></i></s></div></div>
+    <div class="row"><div class="rel">25 DEC</div><div class="tit"><i class="p p9"></i>Nosferatu</div><div class="run">132 min</div><div class="gen">Horror</div><div class="rat">7.1<s><i style="width:71%"></i></s></div></div>
+  </section>
+
+  <div class="div"></div>
+
+  <aside class="pass">
+    <div class="phead"><span class="lab">Boarding pass</span><span class="lab">Seq 01 / 142</span></div>
+
+    <div class="seg"><span class="lab">Title</span><h2>Dune: Part Two</h2></div>
+    <div class="seg grid">
+      <div><span class="lab">Release</span><div class="val">08 MAR 2024</div><div class="note">Rescheduled from 01 MAR</div></div>
+      <div><span class="lab">Runtime</span><div class="val">166 MIN</div><div class="note">02H 46M</div></div>
+    </div>
+    <div class="seg grid">
+      <div><span class="lab">Cert</span><div class="val">PG-13</div></div>
+      <div><span class="lab">Rating</span><div class="val">8.2 / 10</div></div>
+    </div>
+    <div class="seg grid">
+      <div><span class="lab">Genre</span><div class="val sans">Sci-Fi, Adventure</div></div>
+      <div><span class="lab">Director</span><div class="val sans">Denis Villeneuve</div></div>
+    </div>
+
+    <div class="foot">
+      <div class="perf"></div>
+      <span class="lab">Scan at gate</span>
+      <div class="scan"></div>
+      <div class="code">TMDB 693134 &middot; 2024-03-01</div>
+    </div>
+  </aside>
+</main>
+
+</body>
+</html>

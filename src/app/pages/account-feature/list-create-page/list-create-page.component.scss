@@ -1,30 +1,33 @@
-label {
+:host {
   display: block;
-  font-size: var(--text-md);
 }
 
 form {
-  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  max-width: 32rem;
+  padding: var(--s-5);
 }
 
-input,
-textarea {
-  margin-top: 4px;
-  font-size: var(--text-md);
-  display: block;
-  padding: 12px 16px;
+label {
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+input[type='text'] {
   width: 100%;
-  border: 1px solid var(--palette-divider);
-  resize: none;
-  background: var(--palette-background-paper);
-  color: var(--palette-text-primary);
-
-  &:focus {
-    outline: 1px solid var(--palette-divider);
-  }
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border: var(--hair) solid var(--rule-strong);
+  background: var(--ply-1);
+  color: var(--ink);
 }
 
-fieldset {
-  margin-top: 8px;
-  border: none;
+input[type='text']:focus-visible {
+  outline: none;
+  border-color: var(--mark);
 }

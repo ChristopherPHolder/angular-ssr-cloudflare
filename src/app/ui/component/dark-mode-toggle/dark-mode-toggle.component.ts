@@ -1,74 +1,52 @@
-import {DOCUMENT} from '@angular/common';
-import {
-  Component,
-  inject,
-  ViewEncapsulation,
-} from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {RxState} from '@rx-angular/state';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, signal, ViewEncapsulation } from '@angular/core';
 
+type Scheme = 'light' | 'dark';
+
+/**
+ * The colour scheme follows the operating system until the visitor overrides
+ * it, and the override is a single `color-scheme` on the root element — every
+ * token is declared once with `light-dark()` and resolves from there.
+ *
+ * Nothing here reads a media query. Which option looks active is decided in
+ * CSS, so the control is correct in auto mode without any state to track.
+ */
 @Component({
   selector: 'ui-dark-mode-toggle',
   template: `
-    <div class="dark-mode-toggle">
+    <div class="switch" role="group" aria-label="Colour scheme">
       <button
-        aria-label="Enable dark mode"
         type="button"
-        class="light"
-        (click)="setChecked(true)"
+        class="opt opt--light"
+        aria-label="Use the light theme"
+        [attr.aria-pressed]="chosen() === 'light'"
+        (click)="choose('light')"
       >
-        ☀
+        Light
       </button>
-
-      <span class="toggle">
-        <input
-          class="toggle-track"
-          type="checkbox"
-          id="dark-mode"
-          [checked]="!isLightTheme()"
-          (change)="setChecked(!isLightTheme())"
-        />
-        <label style="color: transparent" for="dark-mode">
-          Toggle Switch
-        </label>
-      </span>
-
+      <span class="sep" aria-hidden="true">/</span>
       <button
-        aria-label="Disable dark mode"
         type="button"
-        class="dark"
-        (click)="setChecked(false)"
+        class="opt opt--dark"
+        aria-label="Use the dark theme"
+        [attr.aria-pressed]="chosen() === 'dark'"
+        (click)="choose('dark')"
       >
-        ☾
+        Dark
       </button>
     </div>
   `,
   styleUrls: ['dark-mode-toggle.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class DarkModeToggleComponent extends RxState<{
-  isLightTheme: boolean;
-}> {
-  isLightTheme$ = this.select('isLightTheme');
-  readonly isLightTheme = toSignal(this.isLightTheme$, { initialValue: true });
+export class DarkModeToggleComponent {
   private readonly document = inject(DOCUMENT);
-  constructor() {
-    super();
-    this.set({ isLightTheme: true });
-    this.hold(this.isLightTheme$, this.toggleTheme);
-  }
 
-  toggleTheme = (isLightTheme: boolean): void => {
-    if (isLightTheme) {
-      this.document.body.classList.remove('dark');
-      this.document.body.classList.add('light');
-    } else {
-      this.document.body.classList.add('dark');
-      this.document.body.classList.remove('light');
-    }
-  };
+  /** Null until the visitor overrides the system preference. */
+  readonly chosen = signal<Scheme | null>(null);
 
-  setChecked(isLightTheme: boolean): void {
-    this.set({ isLightTheme });
+  choose(scheme: Scheme): void {
+    this.chosen.set(scheme);
+    this.document.documentElement.dataset['theme'] = scheme;
   }
 }

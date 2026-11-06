@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MOVIES — Vertical Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --black:#000000; --white:#FFFFFF; --mute:#9A9A9A; }
+  *{ box-sizing:border-box; }
+  html,body{ width:1440px; height:900px; overflow:hidden; margin:0; }
+  body{ background:var(--black); font-family:'Archivo',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+
+  .frame{ position:relative; width:1440px; height:900px; overflow:hidden; }
+
+  /* 1 — the media: muted cinematic field, one soft radial lit toward upper centre */
+  .media{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(1180px 820px at 50% 24%,
+        #3E525E 0%, rgba(62,82,94,.78) 26%, rgba(62,82,94,.34) 48%, rgba(62,82,94,0) 72%),
+      #243038;
+  }
+
+  /* 2 — functional scrim carrying the text */
+  .scrim{
+    position:absolute; left:0; right:0; bottom:0; height:420px;
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.30) 42%, rgba(0,0,0,.82) 100%);
+  }
+
+  /* 6 — top strip, type directly on the media */
+  .wordmark{
+    position:absolute; top:38px; left:56px;
+    font-size:19px; font-weight:700; letter-spacing:.3em; color:var(--white);
+  }
+  .tabs{
+    position:absolute; top:36px; left:50%; transform:translateX(-50%);
+    display:flex; gap:44px; align-items:flex-start;
+  }
+  .tab{ font-size:17px; font-weight:500; letter-spacing:.005em; color:var(--white); padding-bottom:9px; }
+  .tab.dim{ opacity:.55; }
+  .tab.active{ border-bottom:2px solid var(--white); }
+
+  /* 4 — lower-left text block */
+  .caption-block{ position:absolute; left:56px; bottom:72px; width:700px; }
+  .title{
+    margin:0; font-size:52px; line-height:1.03; font-weight:700;
+    letter-spacing:-.021em; color:var(--white);
+  }
+  .credit{
+    margin-top:16px; font-size:17px; font-weight:500; letter-spacing:.005em;
+    color:var(--white); opacity:.85;
+  }
+  .caption{
+    margin-top:10px; display:flex; align-items:baseline; gap:8px; width:600px;
+    font-size:17px; font-weight:400; line-height:1.45;
+  }
+  .caption .text{
+    flex:1 1 auto; min-width:0; color:var(--mute);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .caption .more{ flex:0 0 auto; color:var(--white); font-weight:500; }
+
+  /* 5 — right rail */
+  .rail{
+    position:absolute; right:40px; top:356px;
+    display:flex; flex-direction:column; align-items:center; gap:40px;
+  }
+  .action{ display:flex; flex-direction:column; align-items:center; width:58px; }
+  .action svg{ width:30px; height:30px; display:block; }
+  .action .count{
+    margin-top:7px; font-size:13px; font-weight:500; letter-spacing:.01em;
+    color:var(--white); line-height:1;
+  }
+  .glyph{ fill:none; stroke:var(--white); stroke-width:1.75; stroke-linejoin:round; stroke-linecap:round; }
+  .glyph.engaged{ fill:var(--white); stroke:var(--white); }
+
+  /* 7 — the snap: 48px sliver of the next item */
+  .next{
+    position:absolute; left:0; right:0; bottom:0; height:48px;
+    background:#38242A; overflow:hidden;
+  }
+  .next .peek{
+    position:absolute; left:56px; top:27px;
+    font-size:52px; line-height:1; font-weight:700; letter-spacing:-.021em;
+    color:var(--white); white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="media"></div>
+  <div class="scrim"></div>
+
+  <div class="wordmark">MOVIES</div>
+  <nav class="tabs">
+    <span class="tab dim">Following</span>
+    <span class="tab active">For You</span>
+  </nav>
+
+  <div class="caption-block">
+    <h1 class="title">Dune: Part Two</h1>
+    <div class="credit">Denis Villeneuve &middot; 2024 &middot; 166 min</div>
+    <div class="caption">
+      <span class="text">Paul Atreides unites with the Fremen to wage war against House Harkonnen.</span>
+      <span class="more">more</span>
+    </div>
+  </div>
+
+  <div class="rail">
+    <div class="action">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path class="glyph engaged" d="M12 20.6S3.4 15.1 3.4 9.1A4.9 4.9 0 0 1 12 6.2a4.9 4.9 0 0 1 8.6 2.9c0 6-8.6 11.5-8.6 11.5Z"/>
+      </svg>
+      <span class="count">12.4k</span>
+    </div>
+    <div class="action">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path class="glyph" d="M6.2 3.9h11.6v16.8L12 16.4l-5.8 4.3V3.9Z"/>
+      </svg>
+      <span class="count">3,812</span>
+    </div>
+    <div class="action">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path class="glyph" d="M20.5 12.1c0 3.9-3.8 7.1-8.5 7.1a10.4 10.4 0 0 1-2.8-.4l-5.2 1.7 1.8-4.3a6.7 6.7 0 0 1-2.3-4.1C3.5 8.2 7.3 5 12 5s8.5 3.2 8.5 7.1Z"/>
+      </svg>
+      <span class="count">1,204</span>
+    </div>
+    <div class="action">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path class="glyph" d="M20.8 3.6 3.6 10.9l6.9 2.6 2.6 6.9 7.7-16.8Z"/>
+        <path class="glyph" d="m10.5 13.5 10.3-9.9"/>
+      </svg>
+      <span class="count">860</span>
+    </div>
+  </div>
+
+  <div class="next"><div class="peek">Sicario</div></div>
+</div>
+</body>
+</html>

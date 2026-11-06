@@ -1,27 +1,45 @@
-@use '../../../ui/token/mixins/flex';
-@use '../../../ui/component/aspect-ratio/aspect-ratio';
-
-.account-list {
-  &--details {
-    @include flex.d-flex-v;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    @media only screen and (max-width: 500px) {
-      padding: 1.5rem;
-    }
-
-    &-title {
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-
-    &-stats {
-      color: var(--palette-text-secondary);
-    }
-  }
+.account-list--details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-3);
 }
+
+.account-list--details-title {
+  margin: 0;
+  font-size: var(--t-frame);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.account-list--details-stats {
+  margin: 0;
+  font-family: var(--font-code);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-code);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
 .ui-grid-list-item {
-  content-visibility: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  text-decoration: none;
+}
+
+.ui-grid-list-item:hover {
+  background: var(--ply-1);
+  text-decoration: none;
+}
+
+.ui-grid-list-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--ply-2);
 }

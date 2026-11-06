@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MOVIES — Popular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--vault:#0A0C0D;--panel:#15181A;--rule:#2A2F33;--ink:#F2F4F5;--mute:#8A9196;--chinagraph:#FF4A14}
+*{box-sizing:border-box}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+body{background:var(--vault);color:var(--ink);font-family:'Archivo',sans-serif;font-size:14px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Roboto Mono',monospace}
+.lab{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+/* 1. TOP STRIP */
+header{height:56px;flex:0 0 56px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.wm{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.hr{display:flex;align-items:center;gap:32px}
+.search{width:264px;border-bottom:1px solid var(--rule);padding-bottom:7px}
+.sw{display:flex;gap:8px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.14em}
+.sw .off{color:var(--mute)}
+.sw .sep{color:var(--rule)}
+/* layout */
+.body{flex:1;display:flex;min-height:0}
+/* 2. INDEX COLUMN */
+nav{width:232px;flex:0 0 232px;border-right:1px solid var(--rule);padding:28px 24px 24px;display:flex;flex-direction:column}
+nav .lab{margin-bottom:14px}
+nav .lab+.lab{margin-top:36px}
+.nav-i{position:relative;padding-left:14px;font-size:15px;color:var(--mute);line-height:1;margin-bottom:16px}
+.nav-i.on{color:var(--ink)}
+.nav-i.on::before{content:"";position:absolute;left:0;top:-1px;width:2px;height:15px;background:var(--chinagraph)}
+.gen{padding-left:14px;font-size:14px;color:var(--mute);line-height:1;margin-bottom:13px}
+.foot{margin-top:auto;padding-left:0}
+/* 3. MAIN FIELD */
+main{flex:1;min-width:0;background:var(--panel);padding:0 24px}
+.mh{height:96px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:20px}
+.mh h1{font-size:26px;font-weight:600;letter-spacing:-.01em;margin:10px 0 0}
+.grid{display:grid;grid-template-columns:repeat(5,1fr)}
+.f{padding:18px 16px;border-right:1px solid var(--rule)}
+.f:nth-child(5n){border-right:0}
+.f:nth-child(-n+5){border-bottom:1px solid var(--rule)}
+.po{position:relative;width:100%;aspect-ratio:2/3;margin-bottom:12px}
+.po i{position:absolute;left:0;right:0;bottom:0;height:34%;display:block}
+.c{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--mute);line-height:12px}
+.t{font-size:14px;font-weight:500;line-height:18px;color:var(--ink);margin:6px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r{display:flex;align-items:center;gap:10px;height:12px}
+.tr{flex:1;height:2px;background:var(--rule)}
+.tr b{display:block;height:2px;background:var(--ink)}
+.r span{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--mute)}
+.w82{width:82%}.w81{width:81%}.w78{width:78%}.w77{width:77%}.w74{width:74%}
+.w76{width:76%}.w79{width:79%}.w71{width:71%}.w73{width:73%}.w72{width:72%}
+/* poster swatches */
+.p1{background:#3C4347}.p1 i{background:#2E3438}
+.p2{background:#4A5055}.p2 i{background:#383E43}
+.p3{background:#2F3539}.p3 i{background:#434A4F}
+.p4{background:#534B45}.p4 i{background:#3E3833}
+.p5{background:#333A3E}.p5 i{background:#272D31}
+.p6{background:#454C51}.p6 i{background:#32383C}
+.p7{background:#3A4248}.p7 i{background:#4E565C}
+.p8{background:#5A6268}.p8 i{background:#464D52}
+.p9{background:#2A2F33}.p9 i{background:#3A4045}
+.p10{background:#38414A}.p10 i{background:#2A3138}
+/* 4. KEEPER MARK */
+.mark{position:absolute;left:-20px;top:-18px;width:239px;height:336px;overflow:visible;transform:rotate(-4deg)}
+.keeper .c{color:var(--chinagraph)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wm">MOVIES</div>
+  <div class="hr">
+    <div class="search"><span class="lab">Search the archive</span></div>
+    <div class="sw"><span class="off">LIGHT</span><span class="sep">/</span><span>DARK</span></div>
+  </div>
+</header>
+
+<div class="body">
+
+  <nav>
+    <div class="lab">Discover</div>
+    <div class="nav-i on">Popular</div>
+    <div class="nav-i">Top Rated</div>
+    <div class="nav-i">Upcoming</div>
+    <div class="lab">Genres</div>
+    <div class="gen">Action</div>
+    <div class="gen">Comedy</div>
+    <div class="gen">Drama</div>
+    <div class="gen">Horror</div>
+    <div class="gen">Science Fiction</div>
+    <div class="gen">Thriller</div>
+    <div class="gen">Documentary</div>
+    <div class="foot lab">TMDB</div>
+  </nav>
+
+  <main>
+    <div class="mh">
+      <div><span class="lab">Sheet 01 — Discover</span><h1>Popular</h1></div>
+      <div class="lab">Page 1 of 500 — Updated daily</div>
+    </div>
+
+    <div class="grid">
+
+      <div class="f"><div class="po p1"><i></i></div>
+        <div class="c">FRM 0417 / 2024</div><div class="t">Dune: Part Two</div>
+        <div class="r"><div class="tr"><b class="w82"></b></div><span>8.2</span></div></div>
+
+      <div class="f keeper"><div class="po p2"><i></i>
+        <svg class="mark" viewBox="0 0 239 336" fill="none" aria-hidden="true">
+          <path d="M128 16C62 20 20 88 17 170c-3 84 41 152 107 154 66 2 100-66 98-158-2-84-42-142-106-148-16-2-26 6-34 16"
+            stroke="#FF4A14" stroke-width="3" stroke-linecap="round" fill="none"/></svg></div>
+        <div class="c">FRM 0418 / 2023</div><div class="t">Oppenheimer</div>
+        <div class="r"><div class="tr"><b class="w81"></b></div><span>8.1</span></div></div>
+
+      <div class="f"><div class="po p3"><i></i></div>
+        <div class="c">FRM 0419 / 2023</div><div class="t">Past Lives</div>
+        <div class="r"><div class="tr"><b class="w78"></b></div><span>7.8</span></div></div>
+
+      <div class="f"><div class="po p4"><i></i></div>
+        <div class="c">FRM 0420 / 2023</div><div class="t">Poor Things</div>
+        <div class="r"><div class="tr"><b class="w77"></b></div><span>7.7</span></div></div>
+
+      <div class="f"><div class="po p5"><i></i></div>
+        <div class="c">FRM 0421 / 2023</div><div class="t">The Zone of Interest</div>
+        <div class="r"><div class="tr"><b class="w74"></b></div><span>7.4</span></div></div>
+
+      <div class="f"><div class="po p6"><i></i></div>
+        <div class="c">FRM 0422 / 2023</div><div class="t">Anatomy of a Fall</div>
+        <div class="r"><div class="tr"><b class="w76"></b></div><span>7.6</span></div></div>
+
+      <div class="f"><div class="po p7"><i></i></div>
+        <div class="c">FRM 0423 / 2023</div><div class="t">Perfect Days</div>
+        <div class="r"><div class="tr"><b class="w79"></b></div><span>7.9</span></div></div>
+
+      <div class="f"><div class="po p8"><i></i></div>
+        <div class="c">FRM 0424 / 2023</div><div class="t">La Chimera</div>
+        <div class="r"><div class="tr"><b class="w71"></b></div><span>7.1</span></div></div>
+
+      <div class="f"><div class="po p9"><i></i></div>
+        <div class="c">FRM 0425 / 2024</div><div class="t">The Substance</div>
+        <div class="r"><div class="tr"><b class="w73"></b></div><span>7.3</span></div></div>
+
+      <div class="f"><div class="po p10"><i></i></div>
+        <div class="c">FRM 0426 / 2024</div><div class="t">Challengers</div>
+        <div class="r"><div class="tr"><b class="w72"></b></div><span>7.2</span></div></div>
+
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

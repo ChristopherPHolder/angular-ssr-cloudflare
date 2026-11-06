@@ -1,0 +1,97 @@
+/* ────────────────────────────────────────────────────────────────────────────
+   The Contact Sheet — token layer.
+
+   Palette law: exactly ONE chromatic hue in the entire interface (--mark, the
+   grease pencil). Every other value is achromatic, so poster artwork is the
+   only other colour on screen.
+
+   Rank is carried by PLY — which sheet a thing sits on — never by elevation.
+   There are no box-shadows and no z-index ladder in this design system.
+
+   Both themes are declared once with light-dark(); the theme is chosen by the
+   root's color-scheme, which follows the OS until the visitor overrides it.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light dark;
+
+  /* Ply — the only rank system. 0 is the room, 1 the light table, 2 a leaf
+     lifted off it. A thing is never "above" another thing; it is on a ply. */
+  --ply-0: light-dark(#eef1f2, #0a0c0d);
+  --ply-1: light-dark(#ffffff, #15181a);
+  --ply-2: light-dark(#f7f9fa, #1d2124);
+
+  /* Rules — the frame lines of the sheet. Hairline is always exactly 1px. */
+  --rule: light-dark(#d3d9dc, #272c30);
+  --rule-strong: light-dark(#aab2b7, #3b4247);
+  --hair: 1px;
+
+  /* Ink. Every value below is >= 4.5:1 on ply-0 and ply-1 in both themes. */
+  --ink: light-dark(#14181a, #f2f4f5);
+  --ink-dim: light-dark(#4d5559, #9ba2a7);
+  --ink-faint: light-dark(#636a6f, #767e83);
+
+  /* The grease pencil. The only chromatic hue in the system. */
+  --mark: light-dark(#b82d00, #ff4a14);
+  --mark-ink: light-dark(#ffffff, #0a0c0d);
+
+  --backdrop: light-dark(rgb(20 24 26 / 0.55), rgb(0 0 0 / 0.68));
+
+  /* Type. System stacks: this is an Operate surface and a webfont is weight
+     the bundle budget will not carry. Character comes from tracking, scale
+     and the mono/grotesk split, not from a sourced face. */
+  --font-ui: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
+  /* Fluid scale — no breakpoint ladder, no html{font-size} hack. */
+  --t-code: 0.6875rem;
+  --t-fine: 0.8125rem;
+  --t-frame: clamp(0.875rem, 0.84rem + 0.17vw, 0.9375rem);
+  --t-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --t-lead: clamp(1.0625rem, 0.97rem + 0.42vw, 1.3125rem);
+  --t-head: clamp(1.375rem, 1.05rem + 1.4vw, 2.125rem);
+  --t-display: clamp(1.875rem, 1.25rem + 2.9vw, 3.5rem);
+
+  /* One spacing rhythm. */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* Motion grammar: two-frame steps, no easing curve anywhere. */
+  --step: 90ms;
+  --step-fn: steps(2, end);
+
+  /* Layout constants. The strip carries two rows until there is width for
+     one; the drawer and backdrop offset themselves from this value, so the
+     switch costs nothing but a redeclaration. */
+  --strip: 100px;
+  --rail: 232px;
+  --frame-min: clamp(8.5rem, 13vw, 11.5rem);
+  --measure: 68ch;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --strip: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --step: 1ms;
+  }
+}

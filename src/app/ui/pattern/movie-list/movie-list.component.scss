@@ -1,26 +1,141 @@
-@use '../../token/mixins/flex';
-@use '../../component/aspect-ratio/aspect-ratio';
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+}
 
-.movies-list {
-  contain: content;
-  &--details {
-    @include flex.d-flex-v;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    @media only screen and (max-width: 500px) {
-      padding: 1.5rem;
-    }
+.frame:hover {
+  background: var(--ply-1);
+  text-decoration: none;
+}
 
-    &-title {
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
+/* The mark is the focus indicator, so the global ring would be a second one. */
+.frame:focus-visible {
+  outline: none;
+  background: var(--ply-1);
+}
+
+.frame--plate {
+  position: relative;
+  display: block;
+}
+
+.frame--poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--ply-2);
+}
+
+/* ─── the signature move: the grease-pencil mark ───
+   An editor circles the keeper on the contact sheet. The hovered or focused
+   frame gets the same stroke — one mark doing both jobs. It is the only
+   authored motion in the app, and the only use of the chromatic hue in the
+   field. */
+.frame--mark {
+  position: absolute;
+  inset: 3%;
+  width: 94%;
+  height: 94%;
+  color: var(--mark);
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.frame--mark use {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+}
+
+.frame:hover .frame--mark,
+.frame:focus-visible .frame--mark {
+  opacity: 1;
+}
+
+.frame:hover .frame--mark use,
+.frame:focus-visible .frame--mark use {
+  animation: mark-draw 420ms linear forwards;
+}
+
+@keyframes mark-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-.ui-grid-list-item {
-  content-visibility: auto;
-  contain-intrinsic-size: 450px;
+@media (prefers-reduced-motion: reduce) {
+  .frame--mark use {
+    stroke-dashoffset: 0;
+  }
+  .frame:hover .frame--mark use,
+  .frame:focus-visible .frame--mark use {
+    animation: none;
+  }
+}
+
+/* ─── the gutter: what is written beside the frame on the sheet ─── */
+
+.frame--gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-3) var(--s-3) var(--s-4);
+}
+
+.frame--code {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin: 0;
+  max-width: none;
+}
+
+.frame:hover .frame--code,
+.frame:focus-visible .frame--code {
+  color: var(--mark);
+}
+
+.frame--title {
+  margin: 0;
+  font-size: var(--t-frame);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  /* Two lines, then clip: the strip's rhythm survives a long title. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ─── empty state ─── */
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-8) var(--s-5);
+  border-top: var(--hair) solid var(--rule);
+  color: var(--ink-dim);
+}
+
+.empty--icon {
+  color: var(--ink-faint);
 }

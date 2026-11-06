@@ -1,39 +1,40 @@
-@use '../../token/gradient';
+/* The detail page is the accession card: the plate on the left, everything
+   written about it on the right, divided by the same hairline. */
 
 :host {
   display: grid;
-  grid-template-columns: 40% 60%;
-  max-width: 120rem;
-  margin: 0 auto 7rem;
-
-  @media only screen and (max-width: 900px) {
-    display: block;
-    grid-template-columns: unset;
-    margin-bottom: 5rem;
-  }
-
-  @media only screen and (max-width: 1300px) {
-    max-width: 110rem;
-    margin-bottom: 5rem;
-    .grid {
-      &--item {
-        padding: 2rem;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 1462.5px) {
-    max-width: 110rem;
-    margin-bottom: 6rem;
-  }
-
-  @media only screen and (max-width: 1500px) {
-    max-width: 105rem;
-  }
+  grid-template-columns: 1fr;
+  align-items: start;
+  border-bottom: var(--hair) solid var(--rule);
 }
 
-.grid {
-  &--item {
-    padding: 4rem;
+.grid--item {
+  min-width: 0;
+}
+
+.grid--plate {
+  padding: var(--s-5);
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.grid--description {
+  padding: var(--s-5);
+}
+
+@media (min-width: 48rem) {
+  :host {
+    /* The plate is held to a readable size; the card gets the rest. */
+    grid-template-columns: minmax(14rem, 22rem) 1fr;
+  }
+
+  .grid--plate {
+    border-bottom: none;
+    border-right: var(--hair) solid var(--rule);
+    position: sticky;
+    top: calc(var(--strip) + var(--s-5));
+  }
+
+  .grid--description {
+    padding: var(--s-5) var(--s-6);
   }
 }

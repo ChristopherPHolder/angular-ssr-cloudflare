@@ -1,57 +1,54 @@
-@use '../../../../ui/token/mixins/flex';
-
-.movies-list {
-  &--details {
-    @include flex.d-flex-v;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    @media only screen and (max-width: 500px) {
-      padding: 1.5rem;
-    }
-
-    &-title {
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-  }
+.movies-list--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--frame-min), 1fr));
+  border-top: var(--hair) solid var(--rule);
+  border-left: var(--hair) solid var(--rule);
 }
 
 .ui-grid-list-item {
-  content-visibility: auto;
   position: relative;
-  cursor: pointer;
-
-  img {
-    transition: filter 150ms ease-in-out;
-  }
-
-  &:hover {
-    .ribbon {
-      display: block;
-    }
-
-    img {
-      filter: grayscale(1);
-    }
-  }
-
-  &.selected .ribbon {
-    display: block;
-  }
+  display: flex;
+  flex-direction: column;
+  border-right: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+  text-decoration: none;
 }
 
+.ui-grid-list-item:hover {
+  background: var(--ply-1);
+  text-decoration: none;
+}
+
+.ui-grid-list-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--ply-2);
+}
+
+.movies-list--details {
+  padding: var(--s-3);
+}
+
+.movies-list--details-title {
+  margin: 0;
+  font-size: var(--t-frame);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* The ribbon is the sheet's one badge: a mark, not a pill. */
 .ribbon {
-  display: none;
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  height: 40px;
-  line-height: 40px;
-  width: 100%;
-  text-align: center;
-  margin: auto;
-  background: var(--palette-primary-main);
+  padding: 2px var(--s-2);
+  background: var(--mark);
+  color: var(--mark-ink);
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }

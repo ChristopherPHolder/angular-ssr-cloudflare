@@ -22,10 +22,7 @@
           <h2 data-uf="header-sub">{{ movie.tagline }}</h2>
         </header>
         <section class="movie-detail--basic-infos">
-          <ui-star-rating
-            [rating]="movie.vote_average"
-            [showRating]="true"
-          ></ui-star-rating>
+          <ui-rating [rating]="movie.vote_average" />
           <div class="movie-detail--languages-runtime-release">
             <strong>{{ movie.languages_runtime_release }}</strong>
           </div>
@@ -38,7 +35,7 @@
                 class="movie-detail--genres-link"
                 [routerLink]="['/list/genre/', genre.id]"
                 >
-                <fast-svg name="genre" style="margin-right: 0.5rem"></fast-svg>
+                <fast-svg name="genre" size="12" />
                 {{ genre.name }}
               </a>
             }
