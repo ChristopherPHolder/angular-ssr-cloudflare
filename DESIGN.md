@@ -161,7 +161,8 @@ their own rules rather than relying on a grid gap.
 **Key Characteristics:**
 - One chromatic hue in the whole system; everything else achromatic and cool.
 - Zero border-radius and zero box-shadow, anywhere, without exception.
-- Rank is ply — which sheet a thing sits on — plus a 1px hairline.
+- Rank is ply — which sheet a thing sits on — plus a 1px hairline, and stacking order
+  is one declared ladder of tokens rather than numbers picked per component.
 - A grotesk/mono split where the mono carries codes, years, figures and labels, never prose.
 - Two-frame step motion at 90ms with no easing curve anywhere.
 - Column count is intrinsic; the responsive system has exactly two breakpoint values.
@@ -309,6 +310,19 @@ shadow. The account menu, the drawer and the trailer dialog — the three things
 conventionally be "elevated" — are all a ply change plus a `--rule-strong` border, nothing
 more. The modal wash (`--backdrop`) is the only atmospheric device in the system.
 
+Where surfaces genuinely have to stack, the order is a declared ladder, not a number chosen
+at the call site. Five tokens hold it, in the order a sheet stacks: `--ply-raise: 1` (a frame
+lifted under the hover mark), `--ply-strip: 2` (the sticky top strip), `--ply-leaf: 3` (the
+account menu and the modal backdrop), `--ply-drawer: 4` (the index drawer over the wash) and
+`--ply-modal: 5` (the share overlay). Every global stacking site in the build reads from
+them.
+
+The ladder ranks **whole surfaces against each other**. Ordering within a single component —
+the focus ring over its own poster, the chinagraph mark over that ring, a results list over
+the box it belongs to — stays local, keeps a bare `z-index` with a comment saying why, and
+never enters the ladder. Blurring that line is how a rank system turns back into a pile of
+numbers.
+
 ### Named Rules
 
 **The Ply Rule.** A thing is never *above* another thing; it is *on* a ply. Rank is
@@ -317,6 +331,11 @@ shadow is asking for a ply it has not been given.
 
 **The No-Shadow Rule.** `box-shadow` is not used for elevation, for hover, for focus, or for
 glow. Focus is a ring and a drawn mark; hover is a ply change.
+
+**The Declared Ladder Rule.** A surface that stacks above another surface takes a `--ply-*`
+token; it never invents a number. Local ordering inside one component stays local and is
+commented as such. Audit test: every `z-index` in the codebase is either a `--ply-*` token or
+carries a comment explaining why it is intra-component.
 
 ## Shapes
 
@@ -354,6 +373,13 @@ deliberately hand-drawn and irregular.
 - **Style:** transparent, `--rule-strong` hairline, `--ink-dim` uppercase mono label,
   4px/12px padding, square.
 - **Hover:** both the label and the border go to `--mark`. Chips are never filled.
+
+### The Accession Label
+A single line of tabular uppercase mono set on the page title's own baseline, after the
+heading rather than above it (`.header--label`). It carries catalogue data and nothing else —
+the route type, a movie's tagline, a person's birthday. It is a label, not a heading: as a
+heading it would push zero-information words into the document outline. It never carries an
+invented word.
 
 ### Cards / Containers
 There are no cards. The equivalent container is a **section on the sheet**: 24px padding
@@ -421,6 +447,9 @@ stops and becomes a static 40%-opacity full-width line.
 - **Do** take every colour from the token layer, and declare both themes in a single
   `light-dark()` pair at the point the token is defined.
 - **Do** carry rank with a ply change plus a hairline (`--ply-0` → `--ply-1` → `--ply-2`).
+- **Do** take stacking order from the `--ply-*` ladder (`raise` → `strip` → `leaf` → `drawer`
+  → `modal`) whenever one surface sits over another, and leave intra-component ordering local
+  and commented.
 - **Do** use `--rule` for structure and `--rule-strong` for anything that bounds a control.
 - **Do** set codes, years, figures and short uppercase labels in the mono stack with
   `tabular-nums`, and prose in the grotesk.
@@ -453,5 +482,8 @@ stops and becomes a static 40%-opacity full-width line.
   drawn over uncontrolled imagery; pair it with the two-tone ring.
 - **Don't** separate frames with a grid `gap`. The strip is continuous; the frames draw
   their own rules.
-- **Don't** put a short invented word above a heading as a kicker or eyebrow. The accession
-  label beside a page title is for real catalogue data (a tagline, a year, a source count).
+- **Don't** put a short invented word above or beside a heading as a kicker or eyebrow. The
+  accession label exists only to carry real catalogue data; if there is no datum for it, the
+  heading stands alone and says the whole thing itself.
+- **Don't** write a bare `z-index` for a surface. If two surfaces stack, one of them is
+  missing a `--ply-*` token.
