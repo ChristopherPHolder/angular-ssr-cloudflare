@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
 import { coerceObservable } from '../../../shared/cdk/coerceObservable';
 import { RxInputType } from '../../../shared/cdk/input-type.typing';
 import { RouterLink } from '@angular/router';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { RatingComponent } from '../rating/rating.component';
 import { ElementVisibilityDirective } from '../../../shared/cdk/element-visibility/element-visibility.directive';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { GridListComponent } from '../../component/grid-list/grid-list.component';
@@ -15,7 +15,7 @@ import { Movie } from '../../../state/movie.state';
 @Component({
   imports: [
     RouterLink,
-    StarRatingComponent,
+    RatingComponent,
     ElementVisibilityDirective,
     FastSvgComponent,
     GridListComponent,
@@ -24,6 +24,18 @@ import { Movie } from '../../../state/movie.state';
   selector: 'ui-movie-list',
   template: `
     @if (moviesListVisible()) {
+      <!--
+        The grease-pencil stroke is declared once and referenced per frame,
+        so a hundred frames cost one path's worth of markup, not a hundred.
+      -->
+      <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+        <symbol id="chinagraph" viewBox="0 0 200 300">
+          <path
+            d="M101 13c57 1 91 59 89 136-2 74-32 138-91 138-57 0-88-62-88-139C11 73 44 15 98 13c23-1 44 5 57 17"
+          />
+        </symbol>
+      </svg>
+
       <ui-grid-list>
         <!--
             **🚀 Perf Tip for TBT:**
@@ -32,42 +44,54 @@ import { Movie } from '../../../state/movie.state';
         -->
         @for (movie of movieItems(); track movie.id; let idx = $index) {
           <a
-            class="ui-grid-list-item"
+            class="frame ui-grid-list-item"
             [routerLink]="['/detail/movie', movie.id]"
             [attr.data-uf]="'movie-' + idx"
           >
-            <!--
-              **🚀 Perf Tip for LCP:**
-              Prefer the native HTML attribute loading="lazy" instead of an extra directive.
-              This cuts bootstrap and template evaluation cost.
-            -->
-            <img
-              [ngSrc]="movie.imgSrc"
-              [ngSrcset]="movie.imgSrcset"
-              [sizes]="movie.imgSizes"
-              [priority]="idx < numPriority()"
-              class="aspectRatio-2-3 gradient"
-              [width]="movie.imgWidth"
-              [height]="movie.imgHeight"
-              alt="poster movie"
-              [title]="movie.title"
-            />
-            <div class="movies-list--details">
-              <h3 class="movies-list--details-title">
-                {{ movie.title }}
-              </h3>
-              <ui-star-rating [rating]="movie.vote_average"></ui-star-rating>
-            </div>
+            <span class="frame--plate">
+              <!--
+                **🚀 Perf Tip for LCP:**
+                Prefer the native HTML attribute loading="lazy" instead of an extra directive.
+                This cuts bootstrap and template evaluation cost.
+              -->
+              <img
+                class="frame--poster"
+                [ngSrc]="movie.imgSrc"
+                [ngSrcset]="movie.imgSrcset"
+                [sizes]="movie.imgSizes"
+                [priority]="idx < numPriority()"
+                [width]="movie.imgWidth"
+                [height]="movie.imgHeight"
+                alt=""
+                [title]="movie.title"
+              />
+              <svg class="frame--mark" viewBox="0 0 200 300" aria-hidden="true">
+                <use class="mark-halo" href="#chinagraph" />
+                <use href="#chinagraph" />
+              </svg>
+            </span>
+
+            <span class="frame--gutter">
+              <span class="frame--code code">
+                <span>TMDB {{ movie.id }}</span>
+                <span>{{ movie.release_date?.slice(0, 4) || '—' }}</span>
+              </span>
+              <h3 class="frame--title">{{ movie.title }}</h3>
+              <ui-rating [rating]="movie.vote_average" />
+            </span>
           </a>
         }
         <!-- If this element is visible in the viewport the paginate event fires -->
         <div (elementVisibility)="onVisible($event)"></div>
       </ui-grid-list>
-    }
-    @else {
-      <div style="display: flex; align-items: center;">
-        <span style="font-size: 1.5rem">No results</span>
-        <fast-svg name="sad"></fast-svg>
+    } @else {
+      <div class="empty">
+        <p class="empty--label code">
+          <fast-svg class="empty--icon" name="sad" size="16" />
+          <span>No frames</span>
+        </p>
+        <p class="empty--text">Nothing in the archive matches that.</p>
+        <a class="btn" routerLink="/list/category/popular">Browse popular</a>
       </div>
     }
   `,
@@ -86,9 +110,9 @@ export class MovieListComponent {
   @Input()
   set withImgPriority(p: number) {
     if (p) {
-      this.state.set({numPriority: p});
+      this.state.set({ numPriority: p });
     } else {
-      this.state.set({numPriority: 0});
+      this.state.set({ numPriority: 0 });
     }
   }
 
@@ -98,10 +122,10 @@ export class MovieListComponent {
   // if no movies are given we don't need to render nor listen for the infinite scroll trigger
   readonly moviesListVisible = toSignal(
     this.state.select(map((state) => !!state.movies && state.movies.length > 0)),
-    { initialValue: false }
+    { initialValue: false },
   );
 
-  @Input({required: true})
+  @Input({ required: true })
   set movies(movies$: RxInputType<Movie[]>) {
     this.state.connect('movies', coerceObservable(movies$));
   }

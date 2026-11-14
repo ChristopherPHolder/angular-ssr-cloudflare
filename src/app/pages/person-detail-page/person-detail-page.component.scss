@@ -1,89 +1,92 @@
-@use '../../ui/component/button/button';
-@use '../../ui/component/loader/loader';
-@use '../../ui/component/aspect-ratio/aspect-ratio';
-@use '../../ui/token/mixins/flex';
-
 :host {
-  width: 100%;
   display: block;
 }
 
-.movie-detail {
-  @media only screen and (max-width: 1500px) {
-    &--grid-item {
-      padding: 3rem;
-    }
-  }
-
-  &--ad-section-links {
-    .section--content {
-      @include flex.d-flex;
-      margin-right: auto;
-    }
-
-    .btn {
-      margin-right: 2rem;
-      @media only screen and (max-width: 1300px) {
-        margin-right: 1rem;
-      }
-    }
-
-    > .btn:last-child {
-      margin-right: 0;
-      float: right;
-    }
-  }
+.person-detail--ad-section-links,
+.movie-detail--ad-section-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
 }
 
-.movie-detail--section {
-  margin-bottom: 3rem;
+/* The accession block under the photograph, matching the movie card. */
+.facts {
+  margin: var(--s-5) 0 0;
+  border-top: var(--hair) solid var(--rule);
 }
 
-.select-wrapper {
-  position: relative;
-  max-width: 300px;
+.facts--row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
 
-  &-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    background: transparent;
-    z-index: 1000;
-    box-shadow: var(--theme-shadow-dropdown);
+.facts--row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.facts dt {
+  margin: 0;
+}
+
+.facts dd {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--t-fine);
+  color: var(--ink-dim);
+}
+
+.facts .figure {
+  font-size: var(--t-code);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 30rem) and (max-width: 55.999rem) {
+  .facts {
+    margin-top: 0;
+    border-top: none;
   }
-}
 
-.options {
-  max-height: 300px;
-  overflow: auto;
-  position: absolute;
-  top: calc(100% + 8px);
-  background: var(--palette-background-paper);
-  border: 1px solid var(--palette-divider);
-  width: 100%;
-  z-index: 2000;
-}
-
-.option {
-  font-size: var(--text-md);
-  padding: 0 16px;
-  min-height: 36px;
-  line-height: 36px;
-  border-bottom: 1px solid var(--palette-divider);
-  cursor: pointer;
-
-  &.selected {
-    background: var(--palette-action-hover);
-  }
-
-  &:hover {
-    background: var(--palette-action-hover);
+  .facts--row:first-child {
+    padding-top: 0;
   }
 }
 
-.option .functionality-only-button {
-  width: 100%;
+/* The sort control is a control, not a banner: it takes the width it needs
+   and sits on one line with its label. */
+.sort {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4) 0;
+  border-top: var(--hair) solid var(--rule);
+}
+
+.sort label {
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+.sort .select-wrapper {
+  width: clamp(12rem, 22vw, 18rem);
+}
+
+/* Between a phone and the two-column card the plate would otherwise run the
+   full width and become a billboard with its record pushed off the fold. In
+   that band the plate and its record sit side by side. */
+@media (min-width: 30rem) and (max-width: 55.999rem) {
+  [detailGridMedia] {
+    display: grid;
+    grid-template-columns: minmax(0, 17rem) 1fr;
+    align-items: start;
+    gap: var(--s-5);
+  }
 }

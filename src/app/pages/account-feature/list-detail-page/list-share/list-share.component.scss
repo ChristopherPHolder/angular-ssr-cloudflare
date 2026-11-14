@@ -1,29 +1,16 @@
 .overlay {
   position: fixed;
-  top: 0;
-  right: 0;
-  left: 3px;
-  bottom: 0;
-  margin: auto;
-  background: var(--palette-text-disabled);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
+  inset: 0;
+  z-index: var(--ply-modal);
+  display: grid;
+  place-items: center;
+  background: var(--backdrop);
 }
 
 .modal {
-  background: var(--palette-background-paper);
-}
-
-header,
-p,
-footer {
-  padding: 16px;
-  margin-bottom: 0;
-}
-
-header,
-p {
-  border-bottom: 1px solid var(--palette-divider);
+  width: min(92vw, 30rem);
+  padding: var(--s-5);
+  border: var(--hair) solid var(--rule-strong);
+  background: var(--ply-2);
+  color: var(--ink);
 }

@@ -1,6 +1,9 @@
-@use '../../ui/component/loader/loader';
-@use '../../ui/token/mixins/flex';
-
 :host {
-  width: 100%;
+  display: block;
+}
+
+/* The route hands the heading over lowercased ("popular", "top rated"),
+   so the sheet sets it rather than the adapter rewriting product data. */
+header h1 {
+  text-transform: capitalize;
 }

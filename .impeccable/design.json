@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T00:00:00.000Z",
+  "title": "Design System: The Contact Sheet",
+  "extensions": {
+    "colorMeta": {
+      "ply-0": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "canonical": "light-dark(#eef1f2, #0a0c0d)",
+        "tonalRamp": [
+          "#0a0c0d",
+          "#15181a",
+          "#1d2124",
+          "#2b3033",
+          "#454e55",
+          "#717e88",
+          "#919da4",
+          "#eef1f2"
+        ]
+      },
+      "ply-1": {
+        "role": "neutral",
+        "displayName": "Light Table",
+        "canonical": "light-dark(#ffffff, #15181a)",
+        "tonalRamp": [
+          "#0a0c0d",
+          "#15181a",
+          "#1d2124",
+          "#2b3033",
+          "#454e55",
+          "#8b9398",
+          "#f7f9fa",
+          "#ffffff"
+        ]
+      },
+      "ply-2": {
+        "role": "neutral",
+        "displayName": "Lifted Leaf",
+        "canonical": "light-dark(#f7f9fa, #1d2124)",
+        "tonalRamp": [
+          "#0a0c0d",
+          "#15181a",
+          "#1d2124",
+          "#2b3033",
+          "#454e55",
+          "#8b9398",
+          "#eef1f2",
+          "#f7f9fa"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Frame Line",
+        "canonical": "light-dark(#919da4, #454e55)",
+        "tonalRamp": [
+          "#15181a",
+          "#1d2124",
+          "#2b3033",
+          "#454e55",
+          "#68727a",
+          "#919da4",
+          "#c3cbcf",
+          "#eef1f2"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Control Line",
+        "canonical": "light-dark(#717e88, #68727a)",
+        "tonalRamp": [
+          "#15181a",
+          "#1d2124",
+          "#2b3033",
+          "#454e55",
+          "#68727a",
+          "#717e88",
+          "#a7b1b7",
+          "#eef1f2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "light-dark(#14181a, #f2f4f5)",
+        "tonalRamp": [
+          "#0a0c0d",
+          "#14181a",
+          "#2b3033",
+          "#4d5559",
+          "#5e6569",
+          "#9ba2a7",
+          "#d5dadc",
+          "#f2f4f5"
+        ]
+      },
+      "ink-dim": {
+        "role": "neutral",
+        "displayName": "Dim Ink",
+        "canonical": "light-dark(#4d5559, #9ba2a7)",
+        "tonalRamp": [
+          "#14181a",
+          "#2b3033",
+          "#4d5559",
+          "#5e6569",
+          "#8b9398",
+          "#9ba2a7",
+          "#c3cbcf",
+          "#eef1f2"
+        ]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "light-dark(#5e6569, #8b9398)",
+        "tonalRamp": [
+          "#14181a",
+          "#2b3033",
+          "#4d5559",
+          "#5e6569",
+          "#8b9398",
+          "#9ba2a7",
+          "#c3cbcf",
+          "#eef1f2"
+        ]
+      },
+      "mark": {
+        "role": "primary",
+        "displayName": "Chinagraph",
+        "canonical": "light-dark(#b82d00, #ff4a14)",
+        "tonalRamp": [
+          "#2b0b00",
+          "#4d1400",
+          "#7a2000",
+          "#b82d00",
+          "#e03a08",
+          "#ff4a14",
+          "#ff8b63",
+          "#ffd2c3"
+        ]
+      },
+      "mark-ink": {
+        "role": "neutral",
+        "displayName": "Mark Ink",
+        "canonical": "light-dark(#ffffff, #0a0c0d)",
+        "tonalRamp": [
+          "#0a0c0d",
+          "#15181a",
+          "#1d2124",
+          "#454e55",
+          "#8b9398",
+          "#c3cbcf",
+          "#eef1f2",
+          "#ffffff"
+        ]
+      },
+      "backdrop": {
+        "role": "neutral",
+        "displayName": "Wash",
+        "canonical": "light-dark(rgb(20 24 26 / 0.55), rgb(0 0 0 / 0.68))",
+        "tonalRamp": []
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The page title at the top of every article header."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings inside a detail card."
+      },
+      "frame": {
+        "displayName": "Frame",
+        "purpose": "Movie titles in a frame gutter and index entries; clamped to two lines."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose, capped at 68ch."
+      },
+      "fine": {
+        "displayName": "Fine",
+        "purpose": "Uppercase mono button and chip labels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Accession codes, years, rating figures, tabs and section labels; tabular mono, uppercase."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "step",
+        "value": "90ms",
+        "purpose": "The only transition duration in the system; drops to 1ms under prefers-reduced-motion."
+      },
+      {
+        "name": "step-fn",
+        "value": "steps(2, end)",
+        "purpose": "The only timing function. No easing curve exists anywhere in the project."
+      },
+      {
+        "name": "mark-draw",
+        "value": "stroke-dashoffset 900 -> 0 over 420ms linear",
+        "purpose": "The chinagraph stroke drawing itself; the single declared exception to the step grammar."
+      },
+      {
+        "name": "advance",
+        "value": "translateX(-100%) -> translateX(460%) over 900ms steps(2, end) infinite",
+        "purpose": "The loader's advancing frame line; replaced by a static 40%-opacity rule under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "row",
+        "value": "48rem"
+      },
+      {
+        "name": "rail",
+        "value": "64rem"
+      }
+    ],
+    "layout": [
+      {
+        "name": "strip",
+        "value": "100px, 56px at 48rem",
+        "purpose": "Top strip height; redeclared in the token layer so the wrap costs one line."
+      },
+      {
+        "name": "rail",
+        "value": "232px",
+        "purpose": "Index column width and drawer width."
+      },
+      {
+        "name": "frame-min",
+        "value": "clamp(8.5rem, 13vw, 11.5rem)",
+        "purpose": "Intrinsic grid track floor; column count has no breakpoint."
+      },
+      {
+        "name": "measure",
+        "value": "68ch",
+        "purpose": "Prose line length cap."
+      },
+      {
+        "name": "hair",
+        "value": "1px",
+        "purpose": "Every rule in the system."
+      }
+    ],
+    "stacking": [
+      {
+        "name": "ply-raise",
+        "value": "1",
+        "purpose": "A frame lifted under its own hover/focus mark."
+      },
+      {
+        "name": "ply-strip",
+        "value": "2",
+        "purpose": "The sticky top strip."
+      },
+      {
+        "name": "ply-leaf",
+        "value": "3",
+        "purpose": "The account menu and the modal backdrop."
+      },
+      {
+        "name": "ply-drawer",
+        "value": "4",
+        "purpose": "The index drawer, over the wash."
+      },
+      {
+        "name": "ply-modal",
+        "value": "5",
+        "purpose": "The share overlay, the highest surface."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "The default control: square, hairline-bounded, uppercase mono label.",
+      "html": "<button class=\"ds-btn\">Add to list</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 1px solid var(--rule-strong, #68727a); border-radius: 0; background: transparent; color: var(--ink, #f2f4f5); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: background-color 90ms steps(2, end), border-color 90ms steps(2, end); } .ds-btn:hover { background: var(--ply-2, #1d2124); border-color: var(--ink-faint, #8b9398); } .ds-btn:focus-visible { outline: 2px solid var(--mark, #ff4a14); outline-offset: 2px; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled control; the only element that takes a chinagraph background.",
+      "html": "<button class=\"ds-btn-primary\">Create list</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 1px solid var(--mark, #ff4a14); border-radius: 0; background: var(--mark, #ff4a14); color: var(--mark-ink, #0a0c0d); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: background-color 90ms steps(2, end), border-color 90ms steps(2, end); } .ds-btn-primary:hover { filter: brightness(1.12); } .ds-btn-primary:focus-visible { outline: 2px solid var(--mark, #ff4a14); outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "A hairline underline, not a box. Focus turns the rule and the glyph chinagraph.",
+      "html": "<form class=\"ds-search\"><button class=\"ds-search-glyph\" type=\"submit\" aria-label=\"Search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg></button><input class=\"ds-search-input\" type=\"search\" placeholder=\"Search the archive\" /></form>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 4px 0; border-bottom: 1px solid var(--rule-strong, #68727a); transition: border-color 90ms steps(2, end); } .ds-search:focus-within { border-bottom-color: var(--mark, #ff4a14); } .ds-search-glyph { display: flex; padding: 0; border: none; background: none; color: var(--ink-faint, #8b9398); cursor: pointer; } .ds-search:focus-within .ds-search-glyph { color: var(--mark, #ff4a14); } .ds-search-input { flex: 1 1 auto; min-width: 0; width: clamp(7rem, 18vw, 15rem); padding: 0; border: none; background: none; color: var(--ink, #f2f4f5); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; outline: none; } .ds-search-input::placeholder { color: var(--ink-faint, #8b9398); }"
+    },
+    {
+      "name": "Index Entry",
+      "kind": "nav",
+      "refersTo": "index-entry",
+      "description": "A line of the typed accession index. The active entry takes a 3px chinagraph bar in a gutter every entry reserves.",
+      "html": "<nav class=\"ds-index\"><p class=\"ds-index-label\">Discover</p><a class=\"ds-index-entry ds-is-active\" href=\"#\">Popular</a><a class=\"ds-index-entry\" href=\"#\">Top Rated</a><a class=\"ds-index-entry\" href=\"#\">Upcoming</a></nav>",
+      "css": ".ds-index { display: flex; flex-direction: column; padding: 24px 0; } .ds-index-label { margin: 0 0 8px; padding: 0 24px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint, #8b9398); } .ds-index-entry { display: flex; align-items: center; gap: 8px; padding: 8px 24px; border-left: 3px solid transparent; color: var(--ink-dim, #9ba2a7); font-size: 0.9375rem; text-decoration: none; transition: color 90ms steps(2, end); } .ds-index-entry:hover { color: var(--ink, #f2f4f5); background: var(--ply-1, #15181a); } .ds-index-entry:focus-visible { outline: 2px solid var(--mark, #ff4a14); outline-offset: -2px; } .ds-index-entry.ds-is-active { color: var(--ink, #f2f4f5); border-left-color: var(--mark, #ff4a14); }"
+    },
+    {
+      "name": "Genre Chip",
+      "kind": "chip",
+      "refersTo": "genre-chip",
+      "description": "A square hairline tag. Never filled; hover takes label and border to chinagraph.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Science Fiction</a>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border: 1px solid var(--rule-strong, #68727a); border-radius: 0; color: var(--ink-dim, #9ba2a7); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em; text-decoration: none; transition: color 90ms steps(2, end), border-color 90ms steps(2, end); } .ds-chip:hover { color: var(--mark, #ff4a14); border-color: var(--mark, #ff4a14); } .ds-chip:focus-visible { outline: 2px solid var(--mark, #ff4a14); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tab",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "A row of mono labels over a hairline, the active one carrying a 2px chinagraph bar.",
+      "html": "<div class=\"ds-tabs\"><span class=\"ds-tab ds-is-active\">Cast</span><span class=\"ds-tab\">Crew</span><span class=\"ds-tab\">Details</span></div>",
+      "css": ".ds-tabs { display: flex; margin: 16px 0; border-bottom: 1px solid var(--rule, #454e55); } .ds-tab { flex: 1 1 auto; min-height: 42px; padding: 0 16px; line-height: 42px; text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint, #8b9398); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; } .ds-tab:hover { color: var(--ink, #f2f4f5); } .ds-tab.ds-is-active { color: var(--ink, #f2f4f5); border-bottom-color: var(--mark, #ff4a14); }"
+    },
+    {
+      "name": "Frame",
+      "kind": "card",
+      "refersTo": "frame",
+      "description": "The unit of the catalogue: a 2:3 plate with the accession code, year, title and rating written in the gutter beneath. Hover and focus draw the chinagraph mark.",
+      "html": "<div class=\"ds-grid\"><a class=\"ds-frame\" href=\"#\"><span class=\"ds-frame-plate\"><span class=\"ds-frame-poster\"></span><svg class=\"ds-frame-mark\" viewBox=\"0 0 200 300\" aria-hidden=\"true\"><path class=\"ds-mark-halo\" d=\"M101 13c57 1 91 59 89 136-2 74-32 138-91 138-57 0-88-62-88-139C11 73 44 15 98 13c23-1 44 5 57 17\"/><path class=\"ds-mark-ink\" d=\"M101 13c57 1 91 59 89 136-2 74-32 138-91 138-57 0-88-62-88-139C11 73 44 15 98 13c23-1 44 5 57 17\"/></svg></span><span class=\"ds-frame-gutter\"><span class=\"ds-frame-code\"><span>TMDB 155</span><span>2008</span></span><span class=\"ds-frame-title\">The Dark Knight</span><span class=\"ds-rating\"><span class=\"ds-rating-track\"><span class=\"ds-rating-fill\" style=\"width:85%\"></span></span><span class=\"ds-rating-figure\">8.5</span></span></span></a></div>",
+      "css": ".ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(8.5rem, 13vw, 11.5rem), 1fr)); border-top: 1px solid var(--rule, #454e55); border-left: 1px solid var(--rule, #454e55); } .ds-frame { position: relative; display: flex; flex-direction: column; border-right: 1px solid var(--rule, #454e55); border-bottom: 1px solid var(--rule, #454e55); color: inherit; text-decoration: none; } .ds-frame:hover { background: var(--ply-1, #15181a); z-index: var(--ply-raise, 1); } .ds-frame-plate { position: relative; display: block; } .ds-frame-poster { display: block; width: 100%; aspect-ratio: 2 / 3; background: var(--ply-1, #15181a); } .ds-frame-mark { position: absolute; inset: -5%; z-index: 2; color: var(--mark, #ff4a14); opacity: 0; pointer-events: none; overflow: visible; } .ds-frame-mark path { fill: none; stroke: currentColor; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 900; stroke-dashoffset: 900; } .ds-frame-mark .ds-mark-halo { stroke: var(--ply-0, #0a0c0d); stroke-width: 7; opacity: 0.55; } .ds-frame:hover .ds-frame-mark, .ds-frame:focus-visible .ds-frame-mark { opacity: 1; } .ds-frame:hover .ds-frame-mark path, .ds-frame:focus-visible .ds-frame-mark path { animation: ds-mark-draw 420ms linear forwards; } @keyframes ds-mark-draw { to { stroke-dashoffset: 0; } } .ds-frame:focus-visible { outline: none; background: var(--ply-1, #15181a); } .ds-frame:focus-visible::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; border: 2px solid var(--ply-0, #0a0c0d); outline: 2px solid var(--ink, #f2f4f5); outline-offset: -4px; } .ds-frame-gutter { display: flex; flex-direction: column; gap: 6px; padding: 12px 12px 16px; } .ds-frame-code { display: flex; justify-content: space-between; gap: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; font-variant-numeric: tabular-nums; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint, #8b9398); } .ds-frame:hover .ds-frame-code { color: var(--mark, #ff4a14); } .ds-frame-title { font-size: 0.9375rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink, #f2f4f5); } .ds-rating { display: flex; align-items: center; gap: 8px; } .ds-rating-track { flex: 1 1 auto; min-width: 20px; height: 2px; background: var(--rule, #454e55); } .ds-rating-fill { display: block; height: 2px; background: var(--ink-dim, #9ba2a7); } .ds-rating-figure { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-dim, #9ba2a7); }"
+    },
+    {
+      "name": "Rating Bar",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Magnitude measured, never iconic: a 2px track whose fill width is the value, with the figure beside it. Replaces the five-star widget.",
+      "html": "<span class=\"ds-rating\" role=\"img\" aria-label=\"Rated 7.5 out of 10\"><span class=\"ds-rating-track\" aria-hidden=\"true\"><span class=\"ds-rating-fill\" style=\"width:75%\"></span></span><span class=\"ds-rating-figure\">7.5</span></span>",
+      "css": ".ds-rating { display: flex; align-items: center; gap: 8px; min-width: 0; width: 9rem; } .ds-rating-track { flex: 1 1 auto; min-width: 20px; height: 2px; background: var(--rule, #454e55); } .ds-rating-fill { display: block; height: 2px; background: var(--ink-dim, #9ba2a7); } .ds-rating-figure { flex: 0 0 auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-dim, #9ba2a7); }"
+    },
+    {
+      "name": "Account Menu",
+      "kind": "custom",
+      "refersTo": "account-menu",
+      "description": "A leaf lifted one ply off the sheet. Its rank is the ply and the hairline, never a shadow.",
+      "html": "<div class=\"ds-menu\"><a class=\"ds-menu-item\" href=\"#\">My lists</a><a class=\"ds-menu-item\" href=\"#\">Create list</a><a class=\"ds-menu-item\" href=\"#\">Sign out</a></div>",
+      "css": ".ds-menu { min-width: 200px; padding: 8px 0; background: var(--ply-2, #1d2124); border: 1px solid var(--rule-strong, #68727a); border-radius: 0; } .ds-menu-item { display: block; padding: 8px 16px; color: var(--ink-dim, #9ba2a7); font-size: 0.9375rem; text-decoration: none; transition: color 90ms steps(2, end); } .ds-menu-item:hover { color: var(--ink, #f2f4f5); background: var(--ply-1, #15181a); } .ds-menu-item:focus-visible { outline: 2px solid var(--mark, #ff4a14); outline-offset: -2px; }"
+    },
+    {
+      "name": "Loader",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The sheet's own idiom: a frame line advancing, not a spinner.",
+      "html": "<div class=\"ds-loader\"></div>",
+      "css": ".ds-loader { width: 100%; min-height: 2px; margin: 32px 0; background: var(--rule, #454e55); overflow: hidden; } .ds-loader::after { content: ''; display: block; width: 28%; height: 2px; background: var(--mark, #ff4a14); animation: ds-advance 900ms steps(2, end) infinite; } @keyframes ds-advance { from { transform: translateX(-100%); } to { transform: translateX(460%); } } @media (prefers-reduced-motion: reduce) { .ds-loader::after { animation: none; width: 100%; opacity: 0.4; } }"
+    },
+    {
+      "name": "Accession Label",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "A tabular uppercase mono line on the page title's own baseline, carrying catalogue data only — never an invented word.",
+      "html": "<header class=\"ds-article-header\"><h1 class=\"ds-article-title\">Popular</h1><p class=\"ds-accession\">Category</p></header>",
+      "css": ".ds-article-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; padding: 48px 32px 24px; } .ds-article-title { margin: 0; font-size: clamp(1.375rem, 1.05rem + 1.4vw, 2.125rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink, #f2f4f5); } .ds-accession { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint, #8b9398); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Contact Sheet",
+    "overview": "This is a film archive's own material: the vault dark, the backlit light table, the grease pencil. The catalogue is not a storefront of cards — it is one continuous ruled strip of frames on a sheet, each with its accession code and year written in the gutter beneath it. Nothing floats, nothing lifts, nothing rounds. The only hue in the entire interface is the grease pencil; every other value is a cool achromatic neutral, so the poster artwork is the only other colour the page paints.\n\nDensity and legibility outrank decoration. The chrome is hairlines and mono labels; the content is the posters. The system is deliberately built out of platform features rather than dependencies — system type stacks, light-dark(), intrinsic grid, content-visibility — because weight is spent against the argument this app exists to make. Every token is declared once; a value that appears twice is a token that is missing.\n\nThe test the world has to pass is the empty-frames test: with every poster removed, the field still has to read as a ruled grid of frames with codes in the gutters. It does — that is what the hairline rules and the gutter mono are for, and it is why the frames carry their own rules rather than relying on a grid gap.",
+    "keyCharacteristics": [
+      "One chromatic hue in the whole system; everything else achromatic and cool.",
+      "Zero border-radius and zero box-shadow, anywhere, without exception.",
+      "Rank is ply — which sheet a thing sits on — plus a 1px hairline, and stacking order is one declared ladder of tokens rather than numbers picked per component.",
+      "A grotesk/mono split where the mono carries codes, years, figures and labels, never prose.",
+      "Two-frame step motion at 90ms with no easing curve anywhere.",
+      "Column count is intrinsic; the responsive system has exactly two breakpoint values."
+    ],
+    "rules": [
+      {
+        "name": "The One Hue Rule",
+        "body": "--mark is the only non-achromatic token in the system. If a new surface needs a second colour, it needs a reason that outranks the law — and it will not find one, because poster artwork is the colour. Audit test: grep the stylesheets for a literal colour; everything that is not --mark must be grey.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Rules Rule",
+        "body": "A hairline is either structure (--rule) or a control boundary (--rule-strong). Structure may sit under 3:1 because nothing is read from it; anything that bounds something clickable takes --rule-strong and clears 3:1 on every ply.",
+        "section": "colors"
+      },
+      {
+        "name": "The Faint-Is-Text Rule",
+        "body": "--ink-faint is used for small mono labels people actually read, so it is held to 4.5:1 against every ply in both themes — not to the 3:1 bar its visual weight suggests.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono-Is-Data Rule",
+        "body": "The mono face carries accession codes, years, figures, counts and short uppercase labels — never body copy, never a heading, never a sentence. If it would be read as prose, it is set in the grotesk.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Webfont Rule",
+        "body": "No @font-face, no font CDN, no icon font. The type ramp is fluid clamp() with no html { font-size } hack and no breakpoint ladder, so size is continuous across every viewport.",
+        "section": "typography"
+      },
+      {
+        "name": "The Intrinsic Column Rule",
+        "body": "Column count is never set by a breakpoint. New grids use auto-fill over a fluid minmax() track; if a layout seems to need a third breakpoint, it needs an intrinsic track instead.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Markup Rule",
+        "body": "The same DOM serves phone and desktop. A responsive change is a CSS rule, never a branch — this keeps the SSR payload identical for every device, which is what makes hydration at the edge correct.",
+        "section": "layout"
+      },
+      {
+        "name": "The Two Breakpoints Rule",
+        "body": "48rem (the strip returns to one row; page padding and the detail card go two-column) and 64rem (the index sits beside the field). Adding a third breakpoint value is a system change, not a local fix.",
+        "section": "layout"
+      },
+      {
+        "name": "The Ply Rule",
+        "body": "A thing is never above another thing; it is on a ply. Rank is expressed by moving to the next ply and drawing a hairline. A new surface that reaches for a shadow is asking for a ply it has not been given.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No-Shadow Rule",
+        "body": "box-shadow is not used for elevation, for hover, for focus, or for glow. Focus is a ring and a drawn mark; hover is a ply change.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Declared Ladder Rule",
+        "body": "A surface that stacks above another surface takes a --ply-* token; it never invents a number. Local ordering inside one component stays local and is commented as such. Audit test: every z-index in the codebase is either a --ply-* token or carries a comment explaining why it is intra-component.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do take every colour from the token layer, and declare both themes in a single light-dark() pair at the point the token is defined.",
+      "Do carry rank with a ply change plus a hairline (--ply-0 → --ply-1 → --ply-2).",
+      "Do take stacking order from the --ply-* ladder (raise → strip → leaf → drawer → modal) whenever one surface sits over another, and leave intra-component ordering local and commented.",
+      "Do use --rule for structure and --rule-strong for anything that bounds a control.",
+      "Do set codes, years, figures and short uppercase labels in the mono stack with tabular-nums, and prose in the grotesk.",
+      "Do express every responsive change in CSS — intrinsic grid first, then one of the two existing breakpoints.",
+      "Do animate with var(--step) var(--step-fn) (90ms, steps(2, end)) and nothing else.",
+      "Do release content-visibility to visible on the hovered or focused frame. The frame carries content-visibility: auto for off-screen work, and that applies paint containment which clips the chinagraph's overhang; releasing it only on interaction keeps the saving where it actually pays, since the interacted frame is on screen by definition.",
+      "Do recolour injected brand SVGs globally by id (#movies-logo .st0, #tmdb-logo .cls-1) and apply transforms to the <fast-svg> host, never to the inner <svg>. The injected SVG lives in that component's own view and carries no encapsulation attribute from the parent, so a parent's scoped descendant selector cannot reach it.",
+      "Do keep TMDB attribution visible, linked, and at a legible ink in both themes.",
+      "Do reach for a platform feature before a dependency, and a token before a one-off."
+    ],
+    "donts": [
+      "Don't introduce a second chromatic hue. Poster artwork is the colour.",
+      "Don't use box-shadow — not for elevation, hover, focus or glow.",
+      "Don't use a non-zero border-radius anywhere.",
+      "Don't add an easing curve. There is no cubic-bezier, ease-in or ease-out in this project and the step function is the grammar, not a default.",
+      "Don't add a webfont, an icon font, a CSS framework or a UI component library. Bundle size is a product constraint and every one of these spends it.",
+      "Don't branch on viewport size in TypeScript or in a template, and don't add a JavaScript media-query listener. It breaks SSR/hydration parity at the edge.",
+      "Don't make magnitude iconic — no star rows, no filled/empty glyph repeats.",
+      "Don't let the chinagraph mark be the sole focus indicator on any surface where it is drawn over uncontrolled imagery; pair it with the two-tone ring.",
+      "Don't separate frames with a grid gap. The strip is continuous; the frames draw their own rules.",
+      "Don't put a short invented word above or beside a heading as a kicker or eyebrow. The accession label exists only to carry real catalogue data; if there is no datum for it, the heading stands alone and says the whole thing itself.",
+      "Don't write a bare z-index for a surface. If two surfaces stack, one of them is missing a --ply-* token."
+    ]
+  }
+}

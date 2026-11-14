@@ -1,84 +1,42 @@
-@use '../../token/mixins/flex';
-
 :host {
-  @include flex.d-flex;
+  display: flex;
+  align-items: center;
 }
 
-.dark-mode-toggle {
-  @include flex.d-flex;
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.dark-mode-toggle > button {
-  font-size: 2.125rem;
-  background: none;
+.opt {
+  padding: 2px 0;
   border: none;
-  line-height: 0;
+  background: none;
   cursor: pointer;
-  color: var(--palette-text-primary);
-  transition: color var(--theme-anim-duration-standard)
-    var(--theme-anim-easing-easeInOut);
+  font-family: var(--font-code);
+  font-size: var(--t-code);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transition: color var(--step) var(--step-fn);
 }
 
-.dark-mode-toggle > button:focus {
-  outline: none;
+/* The active option is whichever scheme is actually resolved — including in
+   auto mode, before anyone has chosen. light-dark() reads the resolved
+   color-scheme, so this needs no state, no matchMedia and no JavaScript. */
+.opt--light {
+  color: light-dark(var(--ink), var(--ink-faint));
 }
 
-button.light {
-  color: var(--palette-text-disabled);
+.opt--dark {
+  color: light-dark(var(--ink-faint), var(--ink));
 }
 
-button.dark {
-  color: var(--palette-custom-tmdbLightBlue);
+.opt:hover {
+  color: var(--mark);
 }
 
-:host-context(.light) {
-  button.light {
-    color: var(--palette-toggle-light-light);
-  }
-
-  button.dark {
-    color: var(--palette-text-primary);
-  }
-}
-
-.toggle {
-  position: relative;
-  padding: 0 6px;
-  @include flex.d-flex-v;
-  width: 45px;
-}
-
-input[type='checkbox'].toggle-track {
-  width: 34px;
-  height: 14px;
-  opacity: 0.5;
-  background-color: var(--palette-secondary-main);
-  position: relative;
-  border-radius: 7px;
-  appearance: none;
-  cursor: pointer;
-  vertical-align: 2px;
-  outline: none;
-}
-
-input[type='checkbox'].toggle-track:checked + label {
-  left: 20px;
-}
-
-input[type='checkbox'].toggle-track:focus-visible {
-  outline: solid 2px white;
-}
-
-input[type='checkbox'].toggle-track + label {
-  user-select: none;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius: var(--theme-borderRadius-circle);
-  transition: left var(--theme-anim-duration-standard)
-    var(--theme-anim-easing-easeInOut);
-  cursor: pointer;
-  position: absolute;
-  left: 2px;
-  background-color: var(--palette-secondary-main);
+.sep {
+  color: var(--rule-strong);
+  font-size: var(--t-code);
 }

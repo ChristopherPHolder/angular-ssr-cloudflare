@@ -13,7 +13,7 @@ import { MovieCast, MovieDetailAdapter } from './movie-detail-page.adapter';
 import { rxActions } from '@rx-angular/state/actions';
 import { rxEffects } from '@rx-angular/state/effects';
 import { DetailGridComponent } from '../../ui/component/detail-grid/detail-grid.component';
-import { StarRatingComponent } from '../../ui/pattern/star-rating/star-rating.component';
+import { RatingComponent } from '../../ui/pattern/rating/rating.component';
 import { MovieListComponent } from '../../ui/pattern/movie-list/movie-list.component';
 import { BypassSrcDirective } from '../../shared/cdk/bypass-src.directive';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
@@ -35,7 +35,7 @@ type RecommendationContext = {
     RouterLink,
     NgOptimizedImage,
     DetailGridComponent,
-    StarRatingComponent,
+    RatingComponent,
     MovieListComponent,
     BypassSrcDirective,
     FastSvgComponent,
